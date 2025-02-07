@@ -1,8 +1,8 @@
 {
-  "name": "@accessitech/red-cards",
+  "name": "@accessitech/know-your-rights",
   "description": "This is a central project page providing project context and links to more resources.",
   "private": false,
-  "version": "1.2.5.1",
+  "version": "1.2.5.2",
   "type": "module",
   "main": "index.jsx",
   "scripts": {
