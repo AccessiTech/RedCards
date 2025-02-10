@@ -4,7 +4,7 @@ import { shareHandler } from "../../utils";
 
 function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
   const url = siteUrl || window.location.href;
-  const text = linkText || url.slice(8);
+  const text = linkText || url;
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   return (

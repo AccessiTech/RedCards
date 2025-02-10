@@ -26,7 +26,7 @@ describe("Share", () => {
 
   test("Share renders the default link text", () => {
     const share = render(<Share />).container;
-    expect(share.querySelectorAll("p")[1].textContent).toContain("redcards.accessi.tech");
+    expect(share.querySelectorAll("p")[1].textContent).toContain(window.location.href);
   });
 
   test("Share renders custom link text", () => {
