@@ -1,31 +1,11 @@
 import PropTypes from "prop-types";
 import { Row, Col } from "react-bootstrap";
+import { shareHandler } from "../../utils";
 
 function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
-  const url = siteUrl || "https://redcards.accessi.tech";
+  const url = siteUrl || window.location.href;
   const text = linkText || url.slice(8);
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-  const shareHandler = (e) => {
-    e.preventDefault();
-
-    if (!isMobile) {
-      navigator.clipboard.writeText(url);
-      alert("Link copied to clipboard");
-      return;
-    }
-
-    navigator
-      .share({
-        title: shareTitle || document.title,
-        text: shareText || "Know Your Rights",
-        url,
-      })
-      .then(() => {
-        console.log("Thanks for sharing!");
-      })
-      .catch(console.error);
-  };
 
   return (
     <section id="share">
@@ -42,7 +22,9 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
             rel="noopener noreferrer"
             className="qr-link"
             style={{ textAlign: "center" }}
-            onClick={shareHandler}
+            onClick={(e) => { 
+              e.preventDefault();
+              shareHandler({ shareUrl: url, shareTitle, shareText }) }}
           >
             <p>Click to {isMobile ? "Share" : "Copy"}</p>
             <img
