@@ -24,11 +24,6 @@ describe("Share", () => {
     expect(share.querySelector("a").href).toBe("http://localhost:3000/");
   });
 
-  test("Share renders the default link text", () => {
-    const share = render(<Share />).container;
-    expect(share.querySelectorAll("p")[1].textContent).toContain(window.location.href);
-  });
-
   test("Share renders custom link text", () => {
     const linkText = "Know Your Rights";
     const share = render(<Share linkText={linkText} />).container;

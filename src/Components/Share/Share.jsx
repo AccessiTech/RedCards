@@ -4,7 +4,6 @@ import { shareHandler } from "../../utils";
 
 function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
   const url = siteUrl || window.location.href;
-  const text = linkText || url;
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   return (
@@ -26,13 +25,13 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
               e.preventDefault();
               shareHandler({ shareUrl: url, shareTitle, shareText }) }}
           >
-            <p>Click to {isMobile ? "Share" : "Copy"}</p>
             <img
               style={{ maxWidth: "100%", marginBottom: "0.5rem" }}
               src="/assets/qr.svg"
               alt="QR code to this website"
             />
-            <p>{text}</p>
+            <p>Click to {isMobile ? "Share" : "Copy"}</p>
+            {/* <p>{text}</p> */}
           </a>
         </Col>
       </Row>
