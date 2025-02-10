@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
-function ResourceBtn({ source, data, setModalContent, setShowModal }) {
+function ResourceBtn({ source, data }) {
+  const navigate = useNavigate();
   return (
     <Button
       variant="primary"
@@ -13,11 +15,13 @@ function ResourceBtn({ source, data, setModalContent, setShowModal }) {
       onClick={(e) => {
         if (data?.links) {
           e.preventDefault();
-          setModalContent({
-            ...data,
-            sourceName: source,
-          });
-          setShowModal(true);
+          navigate(`/${source}`);
+          // setModalContent({
+          //   ...data,
+          //   sourceName: source,
+          // });
+          // setShowModal(true);
+
         }
       }}
     >
@@ -29,8 +33,6 @@ function ResourceBtn({ source, data, setModalContent, setShowModal }) {
 ResourceBtn.prototype = {
   source: PropTypes.string,
   data: PropTypes.object,
-  setModalContent: PropTypes.func,
-  setShowModal: PropTypes.func,
 };
 
 export default ResourceBtn;
