@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import ResourceBtn from "./ResourceBtn";
 import { titleCase } from "../../utils";
@@ -8,11 +8,26 @@ import {
 } from "./content";
 import PropTypes from "prop-types";
 import ResourceModal from "./ResourceModal";
+import { useParams } from "react-router";
 
 
 function Resources({ hideDigitals, hidePrintables }) {
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
+  const { id } = useParams();
+  const [modalContent, setModalContent] = useState(
+    (id && (digitalResources[id] || printableResources[id])) || null
+  );
+  const [showModal, setShowModal] = useState(id && modalContent ? true : false);
+
+  useEffect(() => {
+    if (id && (digitalResources[id] || printableResources[id])) {
+      setModalContent(digitalResources[id] || printableResources[id]);
+      setShowModal(true);
+    }
+    if (!id || !(digitalResources[id] || printableResources[id])) {
+      setModalContent(null);
+      setShowModal(false);
+    }
+  }, [id]);
 
   return (
     <section id="resources">
@@ -32,8 +47,6 @@ function Resources({ hideDigitals, hidePrintables }) {
                 <ResourceBtn
                   data={data}
                   source={source}
-                  setShowModal={setShowModal}
-                  setModalContent={setModalContent}
                 />
               </Col>
             ))}
@@ -52,8 +65,6 @@ function Resources({ hideDigitals, hidePrintables }) {
                 <ResourceBtn
                   data={data}
                   source={source}
-                  setShowModal={setShowModal}
-                  setModalContent={setModalContent}
                 />
               </Col>
             ))}
@@ -62,9 +73,8 @@ function Resources({ hideDigitals, hidePrintables }) {
       </Row>
       )}
       <ResourceModal
-        showModal={showModal}
-        setShowModal={setShowModal}
         modalContent={modalContent}
+        showModal={showModal}
       />
     </section>
   );
