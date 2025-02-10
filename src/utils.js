@@ -11,3 +11,28 @@ export function titleCase(str) {
   // Directly return the joined string
   return splitStr.join(" ");
 }
+
+export function shareHandler({
+  shareUrl,
+  shareTitle,
+  shareText,
+}) {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (!isMobile) {
+    navigator.clipboard.writeText(shareUrl);
+    alert("Link copied to clipboard");
+    return;
+  }
+
+  navigator
+    .share({
+      title: shareTitle || document.title,
+      text: shareText || "Know Your Rights",
+      url: shareUrl,
+    })
+    .then(() => {
+      console.log("Thanks for sharing!");
+    })
+    .catch(console.error);
+}
