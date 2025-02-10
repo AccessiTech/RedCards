@@ -1,13 +1,22 @@
 import { Modal, Button } from "react-bootstrap";
 import { titleCase } from "../../utils";
 import { useNavigate } from "react-router";
+import ShareButton from "../Share/ShareButton";
 
 function ResourceModal({ showModal, modalContent }) {
   const navigate = useNavigate();
   return (
     <Modal show={showModal} onHide={() => navigate('/')}>
       <Modal.Header closeButton closeVariant="white">
-        <Modal.Title>{modalContent?.title}</Modal.Title>
+        <Modal.Title>
+          {modalContent?.title}
+          <ShareButton {...{
+            shareUrl: window.location.href,
+            shareTite: modalContent?.title,
+            shareText: modalContent?.description,
+            shareAlt: "Share this resource",
+          }} />
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>{modalContent?.description}</p>
