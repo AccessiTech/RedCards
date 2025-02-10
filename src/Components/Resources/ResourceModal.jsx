@@ -1,16 +1,18 @@
 import { Modal, Button } from "react-bootstrap";
 import { titleCase } from "../../utils";
+import { useNavigate } from "react-router";
 
-function ResourceModal({ showModal, setShowModal, modalContent }) {
+function ResourceModal({ showModal, modalContent }) {
+  const navigate = useNavigate();
   return (
-    <Modal show={showModal} onHide={() => setShowModal(false)}>
+    <Modal show={showModal} onHide={() => navigate('/')}>
       <Modal.Header closeButton closeVariant="white">
         <Modal.Title>{modalContent?.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>{modalContent?.description}</p>
-        {modalContent?.links?.map((link) => (
-          <div key={link.title} className="modal-item">
+        {modalContent?.links?.map((link, i) => (
+          <div key={link.title + '-' + i} className="modal-item">
             {link.description ? <h3>{link.title}</h3> : null}
             <p>
               {link.descriptionLink ? (
