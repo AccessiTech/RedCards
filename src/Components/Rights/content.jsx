@@ -68,7 +68,7 @@ export const attribution = (
 export const ctaUrl =
   "https://www.informedimmigrant.com/resources/detention-deportation/know-your-rights/";
 export const ctaTitle = "CA Rapid Response Networks";
-export const ctaSource = "caimmigrant.org";
+export const ctaSource = "rapid-response-networks";
 
 export const ctaData = {
   url: ctaUrl,
