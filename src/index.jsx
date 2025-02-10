@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from "react-router";
 // import { store, persistor } from "./store/store.js";
 // import { Provider } from "react-redux";
 // import { PersistGate } from "reduxjs-toolkit-persist/integration/react";
@@ -13,4 +14,8 @@ import './scss/index.scss'
 //   </Provider>
 // );
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+);
