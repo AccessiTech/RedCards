@@ -1,13 +1,28 @@
-import { Button, Col, Nav, Row, Tab } from "react-bootstrap";
-import { attribution, ctaUrl, ctaTitle, leftHeader, rightHeader, leftColContent, rightColContent, ctaSource, ctaData } from "./content";
+import { Col, Nav, Row, Tab } from "react-bootstrap";
+import { attribution, leftHeader, rightHeader, leftColContent, rightColContent, ctaSource, ctaData } from "./content";
 import PropTypes from "prop-types";
 import ResourceBtn from "../Resources/ResourceBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResourceModal from "../Resources/ResourceModal";
+import { useParams } from "react-router";
 
 function Rights(props) {
-  const [showModal, setShowModal] = useState(false);
-    const [modalContent, setModalContent] = useState(null);
+  const { id } = useParams();
+  const [modalContent, setModalContent] = useState(
+    (id === ctaSource && ctaData) || null
+  );
+  const [showModal, setShowModal] = useState(id && modalContent ? true : false);
+
+  useEffect(() => {
+    if (id === ctaSource && ctaData) {
+      setModalContent(ctaData);
+      setShowModal(true);
+    }
+    if (id !== ctaSource) {
+      setModalContent(null);
+      setShowModal(false);
+    }
+  }, [id]);
   
   return (
     <section id="rights">
@@ -60,8 +75,6 @@ function Rights(props) {
           <ResourceBtn
             source={ctaSource}
             data={ctaData}
-            setShowModal={setShowModal}
-            setModalContent={setModalContent}
           />
           {/* <Button
             href={
@@ -79,7 +92,6 @@ function Rights(props) {
       </Row>
       <ResourceModal
         showModal={showModal}
-        setShowModal={setShowModal}
         modalContent={modalContent}
       />
     </section>
