@@ -203,3 +203,6 @@ export const ctaData = {
     },
   ],
 };
+
+// Norcal Resist Rapid Response Network info
+export const norCalResistNumber = "916-382-0256";
