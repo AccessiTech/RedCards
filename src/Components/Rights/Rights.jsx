@@ -1,5 +1,5 @@
-import { Col, Nav, Row, Tab } from "react-bootstrap";
-import { attribution, leftHeader, rightHeader, leftColContent, rightColContent, ctaSource, ctaData } from "./content";
+import { Col, Nav, Row, Tab, Button } from "react-bootstrap";
+import { attribution, leftHeader, rightHeader, leftColContent, rightColContent, ctaSource, ctaData, ctaUrl, ctaTitle, norCalResistNumber } from "./content";
 import PropTypes from "prop-types";
 import ResourceBtn from "../Resources/ResourceBtn";
 import { useEffect, useState } from "react";
@@ -76,18 +76,6 @@ function Rights(props) {
             source={ctaSource}
             data={ctaData}
           />
-          {/* <Button
-            href={
-              props.ctaUrl || ctaUrl
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="primary"
-            size="lg"
-            className="external-link"
-          >
-            {props.ctaTitle || ctaTitle}
-          </Button> */}
         </Col>
       </Row>
       <ResourceModal
@@ -98,7 +86,7 @@ function Rights(props) {
   );
 }
 
-Rights.prototype = {
+Rights.propTypes = {
   ctaUrl: PropTypes.string,
   ctaTitle: PropTypes.string,
   leftHeader: PropTypes.string,
