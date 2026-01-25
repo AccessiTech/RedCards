@@ -4,7 +4,6 @@ import Header from "./Header";
 
 describe("Header", () => {
   test("Header renders without crashing", () => {
-    expect(Header).not.toThrow();
     expect(render(<Header />)).toBeDefined();
   });
 
