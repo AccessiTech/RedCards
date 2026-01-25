@@ -38,9 +38,10 @@ function Header({ title, lead, disableTranslate } = {}) {
             rel="noopener noreferrer"
             variant="primary"
             size="lg"
-            className="report-ice-activity-btn"
+            className="report-ice-activity-btn w-100 fw-bold text-secondary"
           >
-            { `📞 REPORT ICE ACTIVITY 📞 ${norCalResistNumber ? norCalResistNumber : ""} 📞` }
+            REPORT ICE ACTIVITY<br />
+            { `📞 ${norCalResistNumber ? norCalResistNumber : ""} 📞` }
           </Button>
           <h1>{title || "Know Your Rights"}</h1>
           {lead && <p className="lead">{lead}</p>}
