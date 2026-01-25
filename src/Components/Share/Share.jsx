@@ -20,6 +20,7 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
             target="_self"
             rel="noopener noreferrer"
             className="qr-link"
+            id="qr-link"
             style={{ textAlign: "center" }}
             onClick={(e) => { 
               e.preventDefault();
@@ -31,7 +32,7 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
               alt="QR code to this website"
             />
             <p>Click to {isMobile ? "Share" : "Copy"}</p>
-            {/* <p>{text}</p> */}
+            {linkText && <p>{linkText}</p>}
           </a>
         </Col>
       </Row>

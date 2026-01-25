@@ -203,3 +203,9 @@ export const ctaData = {
     },
   ],
 };
+
+// NorCal Resist Rapid Response Network info
+export const norCalResistNumber =
+  (ctaData.links.find(
+    (link) => link.description === "Sacramento Rapid Response Network"
+  ) || {}).btnText || "";
