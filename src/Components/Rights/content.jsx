@@ -204,5 +204,8 @@ export const ctaData = {
   ],
 };
 
-// Norcal Resist Rapid Response Network info
-export const norCalResistNumber = "916-382-0256";
+// NorCal Resist Rapid Response Network info
+export const norCalResistNumber =
+  (ctaData.links.find(
+    (link) => link.description === "Sacramento Rapid Response Network"
+  ) || {}).btnText || "";
