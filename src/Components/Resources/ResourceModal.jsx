@@ -12,7 +12,7 @@ function ResourceModal({ showModal, modalContent }) {
           {modalContent?.title}
           <ShareButton {...{
             shareUrl: window.location.href,
-            shareTite: modalContent?.title,
+            shareTitle: modalContent?.title,
             shareText: modalContent?.description,
             shareAlt: "Share this resource",
           }} />

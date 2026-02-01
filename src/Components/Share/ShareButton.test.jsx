@@ -41,13 +41,13 @@ describe("ShareButton", () => {
 
   test("calls shareHandler on click with all props", async () => {
     const shareUrl = "https://example.com/resource";
-    const shareTite = "Test Title";
+    const shareTitle = "Test Title";
     const shareText = "Test description";
     
     const { container } = render(
       <ShareButton 
         shareUrl={shareUrl}
-        shareTite={shareTite}
+        shareTitle={shareTitle}
         shareText={shareText}
       />
     );
@@ -57,7 +57,7 @@ describe("ShareButton", () => {
 
     expect(shareHandlerMock).toHaveBeenCalledWith({
       shareUrl,
-      shareTite,
+      shareTitle,
       shareText,
     });
   });
@@ -72,7 +72,7 @@ describe("ShareButton", () => {
 
     expect(shareHandlerMock).toHaveBeenCalledWith({
       shareUrl,
-      shareTite: undefined,
+      shareTitle: undefined,
       shareText: undefined,
     });
   });
@@ -85,7 +85,7 @@ describe("ShareButton", () => {
 
     expect(shareHandlerMock).toHaveBeenCalledWith({
       shareUrl: undefined,
-      shareTite: undefined,
+      shareTitle: undefined,
       shareText: undefined,
     });
   });
