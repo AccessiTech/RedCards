@@ -9,6 +9,7 @@ describe("Header", () => {
   let originalScrollIntoView;
   let alertMock;
   let matchMediaMock;
+  let originalMatchMedia;
 
   beforeEach(() => {
     // Mock scrollIntoView
@@ -21,6 +22,7 @@ describe("Header", () => {
     global.alert = alertMock;
 
     // Mock matchMedia
+    originalMatchMedia = window.matchMedia;
     matchMediaMock = vi.fn().mockReturnValue({
       matches: false,
       media: "(display-mode: standalone)",
@@ -38,6 +40,8 @@ describe("Header", () => {
     vi.restoreAllMocks();
     // Restore original scrollIntoView
     Element.prototype.scrollIntoView = originalScrollIntoView;
+    // Restore original matchMedia
+    window.matchMedia = originalMatchMedia;
   });
 
   test("Header renders without crashing", () => {
