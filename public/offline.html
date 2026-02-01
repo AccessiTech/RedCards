@@ -109,6 +109,25 @@
             left: 0;
         }
     </style>
+    <script>
+        // Event handlers for buttons (CSP-compliant)
+        document.addEventListener('DOMContentLoaded', function() {
+            var tryAgainBtn = document.getElementById('try-again-btn');
+            var goHomeBtn = document.getElementById('go-home-btn');
+            
+            if (tryAgainBtn) {
+                tryAgainBtn.addEventListener('click', function() {
+                    window.location.reload();
+                });
+            }
+            
+            if (goHomeBtn) {
+                goHomeBtn.addEventListener('click', function() {
+                    window.location.href = '/';
+                });
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="offline-container">
@@ -118,10 +137,10 @@
             It looks like you've lost your internet connection. Don't worry – 
             Red Cards works offline after your first visit!
         </p>
-        <button class="btn" onclick="window.location.reload()">
+        <button class="btn" id="try-again-btn">
             Try Again
         </button>
-        <button class="btn" onclick="window.location.href='/'" style="margin-left: 12px; background-color: #666;">
+        <button class="btn" id="go-home-btn" style="margin-left: 12px; background-color: #666;">
             Go Home
         </button>
         
