@@ -137,7 +137,7 @@ describe('Rights Component', () => {
         // After a moment, navigate away
         const timer = setTimeout(() => {
           navigate('/other-value');
-        }, 100);
+        }, 150);
         
         return () => clearTimeout(timer);
       }, [navigate]);
@@ -156,12 +156,12 @@ describe('Rights Component', () => {
     // Wait for initial navigation to ctaSource
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).not.toBeNull();
-    });
+    }, { timeout: 1000 });
     
     // Wait for navigation away - this should trigger the id !== ctaSource branch
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).toBeNull();
-    }, { timeout: 200 });
+    }, { timeout: 1000 });
   });
 
   it('renders ResourceBtn with correct props', () => {

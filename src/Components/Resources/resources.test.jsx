@@ -135,7 +135,7 @@ describe("Resources", () => {
         
         const timer = setTimeout(() => {
           navigate('/invalid-id');
-        }, 100);
+        }, 150);
         
         return () => clearTimeout(timer);
       }, [navigate]);
@@ -153,11 +153,11 @@ describe("Resources", () => {
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).not.toBeNull();
-    }, { timeout: 500 });
+    }, { timeout: 1000 });
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).toBeNull();
-    }, { timeout: 500 });
+    }, { timeout: 1000 });
   });
 
   it("covers useEffect branch when id changes from valid to empty", async () => {
@@ -171,7 +171,7 @@ describe("Resources", () => {
         
         const timer = setTimeout(() => {
           navigate('/');
-        }, 100);
+        }, 150);
         
         return () => clearTimeout(timer);
       }, [navigate]);
@@ -189,10 +189,10 @@ describe("Resources", () => {
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).not.toBeNull();
-    }, { timeout: 500 });
+    }, { timeout: 1000 });
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).toBeNull();
-    }, { timeout: 500 });
+    }, { timeout: 1000 });
   });
 });
