@@ -266,6 +266,7 @@ describe("shareHandler - Error Handling", () => {
       Object.defineProperty(global.navigator, "userAgent", {
         value: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)",
         writable: true,
+        configurable: true,
       });
 
       const onSuccess = vi.fn();
@@ -275,7 +276,7 @@ describe("shareHandler - Error Handling", () => {
       });
 
       expect(onSuccess).toHaveBeenCalledWith("Thanks for sharing!");
-      expect(global.console.log).toHaveBeenCalledWith("Thanks for sharing!");
+      expect(global.console.log).not.toHaveBeenCalled(); // onSuccess provided, so no console.log
     });
 
     it("calls onSuccess callback on mobile clipboard fallback", async () => {
