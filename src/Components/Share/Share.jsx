@@ -71,7 +71,7 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
                   padding: "0.5rem",
                   borderRadius: "0.25rem",
                   backgroundColor: shareStatus.type === "error" ? "#f8d7da" : "#d1e7dd",
-                  color: shareStatus.type === "error" ? "#842029" : "#0f5132",
+                  color: shareStatus.type === "error" ? "#842029" : "#000000",
                   fontSize: "0.875rem",
                 }}
               >
