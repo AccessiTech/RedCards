@@ -6,12 +6,14 @@ import * as utils from "../../utils";
 
 describe("Header", () => {
   let scrollIntoViewMock;
+  let originalScrollIntoView;
   let alertMock;
   let matchMediaMock;
 
   beforeEach(() => {
     // Mock scrollIntoView
     scrollIntoViewMock = vi.fn();
+    originalScrollIntoView = Element.prototype.scrollIntoView;
     Element.prototype.scrollIntoView = scrollIntoViewMock;
 
     // Mock alert
@@ -34,6 +36,8 @@ describe("Header", () => {
   afterEach(() => {
     cleanup();
     vi.restoreAllMocks();
+    // Restore original scrollIntoView
+    Element.prototype.scrollIntoView = originalScrollIntoView;
   });
 
   test("Header renders without crashing", () => {
