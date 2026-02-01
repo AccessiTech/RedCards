@@ -664,21 +664,27 @@ git config --global user.signingkey <your-gpg-key-id>
 
 **Goal:** Enable complete offline functionality with service worker caching
 
-### 2.1 Install and Configure Vite PWA Plugin
-**Files:** `vite.config.js`, `package.json`, create `public/sw.js`
+### 2.1 Install and Configure Vite PWA Plugin ✅ COMPLETED
+**Files:** `vite.config.js`, `package.json`, `public/offline.html`, `src/index.jsx`
 
 **Tasks:**
-- [ ] Install `vite-plugin-pwa` and `workbox-*` packages
-- [ ] Configure Vite plugin in `vite.config.js`:
+- [x] Install `vite-plugin-pwa`, `workbox-build`, and `workbox-window` packages
+- [x] Configure Vite plugin in `vite.config.js`:
   - Strategies: CacheFirst for assets, NetworkFirst for HTML
   - Runtime caching for external resources (fonts, Google APIs)
   - Precache all build artifacts
-- [ ] Generate service worker with workbox
-- [ ] Add offline fallback page (`offline.html`)
-- [ ] Configure manifest.json with proper icons and display mode
-- [ ] Test service worker registration and updates
+- [x] Generate service worker with workbox
+- [x] Add offline fallback page (`offline.html`)
+- [x] Configure manifest.json with proper icons and display mode
+- [x] Test service worker registration and updates
+- [x] Add PWA tests (10 tests covering cache strategies, offline support)
+- [x] Register service worker in index.jsx with update handlers
 
-**Outcome:** All static assets cached on first visit
+**Outcome:** ✅ All static assets cached on first visit. Service worker enabled in dev and production. Update prompt ready for Phase 2.3.
+
+**PR:** Ready for creation (branch: `feature/phase2.1-vite-pwa-plugin`)
+**Tests:** 164 passing (10 new PWA tests added)
+**Commit:** 4d360fe
 
 **Dependencies:** None
 
