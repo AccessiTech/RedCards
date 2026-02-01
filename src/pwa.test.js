@@ -62,13 +62,12 @@ describe('PWA Configuration', () => {
     it('should include custom update prompt implementation', () => {
       const indexJsx = readFileSync(join(process.cwd(), 'src/index.jsx'), 'utf-8');
       
-      // Should have showUpdatePrompt function instead of browser confirm()
-      expect(indexJsx).toContain('showUpdatePrompt');
+      // Should use UpdatePrompt React component instead of browser confirm()
+      expect(indexJsx).toContain('UpdatePrompt');
       expect(indexJsx).not.toContain('confirm(');
       
-      // Should create custom prompt UI
-      expect(indexJsx).toContain('sw-update-prompt');
-      expect(indexJsx).toContain('createElement');
+      // Should import the UpdatePrompt component
+      expect(indexJsx).toContain('from \'./Components/UpdatePrompt/UpdatePrompt.jsx\'');
     });
 
     it('should guard console.log for production', () => {
@@ -80,20 +79,21 @@ describe('PWA Configuration', () => {
       expect(indexJsx).toContain('console.log');
     });
 
-    it('should provide user-friendly update UI with reload and dismiss options', () => {
+    it('should use React component for update UI', () => {
       const indexJsx = readFileSync(join(process.cwd(), 'src/index.jsx'), 'utf-8');
       
-      // Should have both reload and dismiss buttons
-      expect(indexJsx).toContain('Reload');
-      expect(indexJsx).toContain('Later');
-      expect(indexJsx).toContain('removePrompt');
+      // Should manage update prompt state with React hooks
+      expect(indexJsx).toContain('useState');
+      expect(indexJsx).toContain('showUpdatePrompt');
+      expect(indexJsx).toContain('setShowUpdatePrompt');
     });
 
-    it('should prevent duplicate update prompts', () => {
+    it('should manage update prompt state properly', () => {
       const indexJsx = readFileSync(join(process.cwd(), 'src/index.jsx'), 'utf-8');
       
-      // Should check for existing prompt before showing new one
-      expect(indexJsx).toContain('getElementById(\'sw-update-prompt\')');
+      // Should have handlers for update and dismiss
+      expect(indexJsx).toContain('handleUpdate');
+      expect(indexJsx).toContain('handleDismiss');
     });
   });
 
