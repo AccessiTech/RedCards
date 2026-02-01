@@ -3,6 +3,7 @@ import { Col, Row, Button } from "react-bootstrap";
 import Translate from "../Translate/Translate";
 import PropTypes from "prop-types";
 import { norCalResistNumber } from "../Rights/content";
+import { shareHandler } from "../../utils";
 
 function Header({ title, lead, disableTranslate } = {}) {
   const deferredPromptRef = useRef(null);
@@ -103,17 +104,21 @@ function Header({ title, lead, disableTranslate } = {}) {
                 Save
               </Button>
             )}
-            <Button variant="outline-primary" size="lg" onClick={() => {
-              if (navigator.share) {
-                navigator.share({
-                  title: document.title,
-                  url: window.location.href,
-                });
-              } else {
-                // copy and paste dialog as fallback
-                navigator.clipboard.writeText(window.location.href);
-                alert("Link copied to clipboard");
-              }
+            <Button variant="outline-primary" size="lg" onClick={async () => {
+              await shareHandler({
+                shareUrl: window.location.href,
+                shareTitle: document.title,
+                onSuccess: (message) => {
+                  // Show alert for clipboard copy (maintains original behavior)
+                  if (message.includes("clipboard")) {
+                    alert(message);
+                  }
+                },
+                onError: (message) => {
+                  // Show alert for errors (maintains original behavior)
+                  alert(message.includes("Permission denied") ? message : `Share failed: ${message}`);
+                },
+              });
             }}>
               Share
             </Button>
