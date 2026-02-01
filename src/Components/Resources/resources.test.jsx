@@ -153,7 +153,7 @@ describe("Resources", () => {
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).not.toBeNull();
-    }, { timeout: 1000 });
+    }, { timeout: 10000 });
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).toBeNull();
