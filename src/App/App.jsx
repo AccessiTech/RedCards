@@ -3,19 +3,30 @@ import Resources from "../Components/Resources/Resources";
 import Rights from "../Components/Rights/Rights";
 import Footer from "../Components/Footer/Footer";
 import Header from "../Components/Header/Header";
+import ErrorBoundary from "../Components/ErrorBoundary/ErrorBoundary";
 import "./App.scss";
 import Share from "../Components/Share/Share";
 
 function App() {
   return (
     <Container>
-      <Header />
+      <ErrorBoundary>
+        <Header />
+      </ErrorBoundary>
       <main id="content">
-        <Rights />
-        <Resources />
-        <Share />
+        <ErrorBoundary>
+          <Rights />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <Resources />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <Share />
+        </ErrorBoundary>
       </main>
-      <Footer />
+      <ErrorBoundary>
+        <Footer />
+      </ErrorBoundary>
     </Container>
   );
 }
