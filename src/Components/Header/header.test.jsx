@@ -1,5 +1,5 @@
 import { test, expect, describe, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup, within } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import Header from "./Header";
 import { norCalResistNumber } from "../Rights/content";
 import * as utils from "../../utils";
