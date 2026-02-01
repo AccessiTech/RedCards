@@ -91,6 +91,33 @@ git add src/Components/Translate/Translate.jsx
 git commit -m "feat: add missing PropTypes to Translate component"
 ```
 
+**4. Push your branch and CREATE A PULL REQUEST (never merge directly to main):**
+```bash
+# Push your feature branch to remote
+git push origin fix/phase1-proptypes-bugs
+
+# Create PR via GitHub web interface or CLI
+gh pr create \
+  --title "Phase 1.1: Fix PropTypes Typos" \
+  --body "Fixes PropTypes typos in ResourceBtn and ShareButton components"
+
+# ❌ NEVER DO THIS - Direct merge to main
+# git checkout main
+# git merge fix/phase1-proptypes-bugs  # WRONG!
+# git push origin main                 # WRONG!
+
+# ✅ CORRECT - Create PR and merge through GitHub
+# This allows for code review, CI checks, and maintains clean history
+```
+
+**⚠️ LESSON LEARNED (February 1, 2026):**
+During Phase 1.5 implementation, work was accidentally merged directly to main instead of creating a PR. This violated the documented workflow and required:
+- Creating a backup branch from the merge commit
+- Force-pushing main back to the previous state
+- Creating a proper PR from the feature branch
+
+**Always remember:** Work goes from `feature branch` → `PR` → `main`, never directly from branch to main.
+
 ---
 
 ### Commit Message Standards
