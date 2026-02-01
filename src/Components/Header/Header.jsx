@@ -9,6 +9,7 @@ function Header({ title, lead, disableTranslate } = {}) {
   const deferredPromptRef = useRef(null);
   const [hideSaveButton, setHideSaveButton] = useState(false);
   const [shareStatus, setShareStatus] = useState({ type: null, message: "" });
+  const shareTimeoutRef = useRef(null);
 
   useEffect(() => {
     function handleBeforeInstallPrompt(event) {
@@ -25,6 +26,15 @@ function Header({ title, lead, disableTranslate } = {}) {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  // Cleanup effect for share status timeout
+  useEffect(() => {
+    return () => {
+      if (shareTimeoutRef.current) {
+        clearTimeout(shareTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -118,14 +128,20 @@ function Header({ title, lead, disableTranslate } = {}) {
                     alert(message);
                   }
                   // Clear success message after 3 seconds
-                  setTimeout(() => setShareStatus({ type: null, message: "" }), 3000);
+                  if (shareTimeoutRef.current) {
+                    clearTimeout(shareTimeoutRef.current);
+                  }
+                  shareTimeoutRef.current = setTimeout(() => setShareStatus({ type: null, message: "" }), 3000);
                 },
                 onError: (message) => {
                   setShareStatus({ type: "error", message });
                   // Show alert for errors (maintains original behavior)
                   alert(message.includes("Permission denied") ? message : `Share failed: ${message}`);
                   // Clear error message after 5 seconds
-                  setTimeout(() => setShareStatus({ type: null, message: "" }), 5000);
+                  if (shareTimeoutRef.current) {
+                    clearTimeout(shareTimeoutRef.current);
+                  }
+                  shareTimeoutRef.current = setTimeout(() => setShareStatus({ type: null, message: "" }), 5000);
                 },
               });
             }}>
