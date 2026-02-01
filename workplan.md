@@ -489,38 +489,34 @@ git config --global user.signingkey <your-gpg-key-id>
 
 ## Phase 1: Foundation & Critical Fixes (Priority: HIGH)
 
-**Goal:** Fix critical bugs, restore Redux, establish error handling infrastructure
+**Goal:** Fix critical bugs, establish error handling infrastructure
 
-### 1.1 Fix PropTypes Bugs
+### 1.1 Fix PropTypes Bugs ✅ COMPLETED
 **Files:** `src/Components/Resources/ResourceBtn.jsx`, `src/Components/Share/ShareButton.jsx`
-- [ ] Fix `PropType` → `PropTypes` typo in ResourceBtn.jsx (line 34)
-- [ ] Fix `Proptypes` → `PropTypes` typo in ShareButton.jsx (line 5)
-- [ ] Add missing PropTypes to `Translate.jsx`
-- [ ] Run ESLint validation after fixes
+- [x] Fix `PropType` → `PropTypes` typo in ResourceBtn.jsx (line 34)
+- [x] Fix `Proptypes` → `PropTypes` typo in ShareButton.jsx (line 5)
+- [x] Add missing PropTypes to `Translate.jsx` (already correct)
+- [x] Run ESLint validation after fixes
 
-**Outcome:** No PropTypes warnings in console
+**Outcome:** ✅ No PropTypes warnings in console
+**PR:** #15 (merged)
 
 ---
 
-### 1.2 Restore Redux Toolkit with Persistence
-**Files:** `src/index.jsx`, create `src/store/`, `src/slices/`
+### 1.2 ~~Restore Redux Toolkit with Persistence~~ REMOVED
 
-**Tasks:**
-- [ ] Uncomment Redux Provider wrapper in `index.jsx`
-- [ ] Create `src/store/store.js` with redux-persist configuration
-  - Persist: user preferences (language, region), cached resource data
-  - Storage: localStorage (web), AsyncStorage ready (Capacitor)
-  - Whitelist: `user`, `resources`, `translation`
-- [ ] Create `src/slices/userSlice.js` for user preferences
-- [ ] Create `src/slices/resourcesSlice.js` for cached phone numbers/resources
-- [ ] Create `src/slices/translationSlice.js` for cached translations
-- [ ] Add Redux DevTools extension support (dev only)
-- [ ] Test state persistence across browser sessions
-- [ ] Test shareable URLs still work with Redux state
+**Decision:** Redux removed from architecture. Reasons:
+- Current URL-based state management is sufficient for shareable states
+- localStorage can be used directly for simple persistence needs
+- Reduces complexity and bundle size
+- React Context can handle any future state needs
+- Capacitor has native storage plugins when needed
 
-**Outcome:** Redux persists user state, enables shareable app states
-
-**Dependencies:** None
+**Alternative Approach:**
+- Use React Context for app-level state (Phase 3)
+- Use localStorage directly for persistence (Phase 2)
+- Keep URL params for shareable states (current)
+- Defer state management complexity until proven necessary
 
 ---
 
@@ -584,10 +580,11 @@ git config --global user.signingkey <your-gpg-key-id>
 ---
 
 ### 2.2 Implement Offline Resource Caching
-**Files:** `src/slices/resourcesSlice.js`, service worker config
+**Files:** `src/utils/storage.js`, service worker config
 
 **Tasks:**
-- [ ] Cache phone numbers and resource URLs in Redux on first load
+- [ ] Create localStorage utility wrapper for simple persistence
+- [ ] Cache phone numbers and resource URLs on first load
 - [ ] Add service worker cache for external PDFs/resources
 - [ ] Implement cache versioning strategy
 - [ ] Add "Download for Offline" button to trigger full cache
@@ -597,7 +594,7 @@ git config --global user.signingkey <your-gpg-key-id>
 
 **Outcome:** App fully functional without internet after first load
 
-**Dependencies:** Phase 1.2 (Redux), Phase 2.1 (Service Worker)
+**Dependencies:** Phase 2.1 (Service Worker)
 
 ---
 
@@ -676,11 +673,11 @@ git config --global user.signingkey <your-gpg-key-id>
 - [ ] Add language switcher component (dropdown or flags)
 - [ ] Keep Google Translate widget as supplementary feature
 - [ ] Test language switching updates all text
-- [ ] Verify translations persist in Redux
+- [ ] Persist language selection in localStorage
 
 **Outcome:** App UI fully translatable without Google Translate dependency
 
-**Dependencies:** Phase 3.2 (Translation files), Phase 1.2 (Redux)
+**Dependencies:** Phase 3.2 (Translation files)
 
 ---
 
@@ -778,7 +775,7 @@ git config --global user.signingkey <your-gpg-key-id>
 **Files:** Create `src/tests/integration/`, `e2e/`, update existing tests
 
 **Tasks:**
-- [ ] Add integration tests for Redux state management
+- [ ] Add integration tests for localStorage persistence
 - [ ] Add integration tests for modal navigation
 - [ ] Add integration tests for language switching
 - [ ] Install Playwright for E2E tests
@@ -805,7 +802,7 @@ git config --global user.signingkey <your-gpg-key-id>
 - [ ] Document config file formats and editing process
 - [ ] Document translation workflow for new languages
 - [ ] Create architecture diagram (component + data flow)
-- [ ] Document Redux store structure
+- [ ] Document localStorage persistence strategy
 - [ ] Document service worker caching strategy
 - [ ] Create CONTRIBUTING.md with:
   - Development setup
@@ -866,11 +863,32 @@ git config --global user.signingkey <your-gpg-key-id>
 
 ## Technical Decisions & Rationale
 
-### Why Redux Persist?
-- **Shareable states**: URL params + Redux state = full app state restoration
-- **Offline data**: Cache resources, translations for offline use
-- **User preferences**: Remember language, region selections
-- **Capacitor-ready**: Works with AsyncStorage for native apps
+### Why No Redux?
+**Decision Date:** January 31, 2026
+
+After initial implementation, Redux was removed in favor of simpler state management:
+
+**Reasons for Removal:**
+- **Simplicity**: Current URL-based routing handles shareable states effectively
+- **Bundle Size**: Reduces dependencies and complexity
+- **Sufficient Alternatives**: 
+  - localStorage for simple persistence
+  - React Context for app-wide state (when needed)
+  - URL params for shareable/deep-linkable states
+- **Maintenance**: Less boilerplate, easier onboarding
+- **Capacitor-Ready**: Native storage plugins work directly with localStorage
+
+**When We Might Reconsider:**
+- Complex cross-component state synchronization needs
+- Real-time collaborative features
+- Complex undo/redo requirements
+- Time-travel debugging becomes essential
+
+**Current State Management Strategy:**
+1. **Local Component State** - useState/useReducer for component-level
+2. **URL Parameters** - React Router for shareable states
+3. **localStorage** - Direct access for persistence
+4. **React Context** - Future app-level state (Phase 3)
 
 ### Why react-i18next vs Google Translate Only?
 - **Offline support**: Translations work without internet
