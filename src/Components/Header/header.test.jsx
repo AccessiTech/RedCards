@@ -79,7 +79,7 @@ describe("Header", () => {
   });
   describe("Scan button", () => {
     test("scrolls to QR code section when clicked", () => {
-      const { container } = render(<Header />);
+      render(<Header />);
       
       // Create a mock QR code section
       const qrSection = document.createElement("div");
