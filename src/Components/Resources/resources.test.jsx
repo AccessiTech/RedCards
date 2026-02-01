@@ -52,7 +52,7 @@ describe("Resources", () => {
     );
     
     const modal = document.querySelector('.modal.show');
-    expect(modal).toBeDefined();
+    expect(modal).not.toBeNull();
   });
 
   it("shows modal when route has matching printable resource id", () => {
@@ -67,7 +67,7 @@ describe("Resources", () => {
     );
     
     const modal = document.querySelector('.modal.show');
-    expect(modal).toBeDefined();
+    expect(modal).not.toBeNull();
   });
 
   it("does not show modal when no route id present", () => {
@@ -108,7 +108,7 @@ describe("Resources", () => {
     );
     
     let modal = document.querySelector('.modal.show');
-    expect(modal).toBeDefined();
+    expect(modal).not.toBeNull();
     
     unmount();
     
@@ -152,7 +152,7 @@ describe("Resources", () => {
     );
     
     await waitFor(() => {
-      expect(document.querySelector('.modal.show')).toBeDefined();
+      expect(document.querySelector('.modal.show')).not.toBeNull();
     });
     
     await waitFor(() => {
@@ -188,7 +188,7 @@ describe("Resources", () => {
     );
     
     await waitFor(() => {
-      expect(document.querySelector('.modal.show')).toBeDefined();
+      expect(document.querySelector('.modal.show')).not.toBeNull();
     });
     
     await waitFor(() => {

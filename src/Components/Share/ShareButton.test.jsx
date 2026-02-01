@@ -17,7 +17,7 @@ describe("ShareButton", () => {
 
   test("renders without crashing", () => {
     const { container } = render(<ShareButton />);
-    expect(container.querySelector("button")).toBeDefined();
+    expect(container.querySelector("button")).not.toBeNull();
   });
 
   test("renders with default title", () => {

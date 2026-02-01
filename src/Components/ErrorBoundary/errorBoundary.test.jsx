@@ -284,6 +284,7 @@ describe("ErrorBoundary", () => {
     });
 
     it("opens GitHub issue page when report issue button is clicked", () => {
+      const originalWindowOpen = window.open;
       const windowOpen = vi.fn();
       window.open = windowOpen;
 
@@ -301,9 +302,12 @@ describe("ErrorBoundary", () => {
       expect(url).toContain("github.com");
       expect(url).toContain("issues/new");
       expect(url).toContain("Reportable%20error");
+      
+      window.open = originalWindowOpen;
     });
 
     it("handles missing error message in report issue", () => {
+      const originalWindowOpen = window.open;
       const windowOpen = vi.fn();
       window.open = windowOpen;
 
@@ -342,9 +346,12 @@ describe("ErrorBoundary", () => {
       expect(windowOpen).toHaveBeenCalled();
       const url = windowOpen.mock.calls[0][0];
       expect(url).toContain("Unknown%20error");
+      
+      window.open = originalWindowOpen;
     });
 
     it("handles missing error stack in report issue", () => {
+      const originalWindowOpen = window.open;
       const windowOpen = vi.fn();
       window.open = windowOpen;
 
@@ -381,9 +388,12 @@ describe("ErrorBoundary", () => {
       expect(windowOpen).toHaveBeenCalled();
       const url = windowOpen.mock.calls[0][0];
       expect(url).toContain("No%20stack%20trace");
+      
+      window.open = originalWindowOpen;
     });
 
     it("handles missing component stack in report issue", () => {
+      const originalWindowOpen = window.open;
       const windowOpen = vi.fn();
       window.open = windowOpen;
 
@@ -420,6 +430,8 @@ describe("ErrorBoundary", () => {
       expect(windowOpen).toHaveBeenCalled();
       const url = windowOpen.mock.calls[0][0];
       expect(url).toContain("No%20component%20stack");
+      
+      window.open = originalWindowOpen;
     });
   });
 

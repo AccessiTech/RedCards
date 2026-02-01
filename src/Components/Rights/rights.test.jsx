@@ -1,22 +1,9 @@
 import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react';
-import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
+import { describe, expect, it, afterEach } from 'vitest';
 import Rights from './Rights';
 import { ctaData, ctaTitle, ctaUrl, leftHeader, rightHeader, ctaSource } from './content';
 import { BrowserRouter, Routes, Route, MemoryRouter, useNavigate } from 'react-router';
 import { useEffect } from 'react';
-
-// Helper component that can navigate programmatically
-function NavigatableRights({ initialPath }) {
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    if (initialPath) {
-      navigate(initialPath);
-    }
-  }, [initialPath, navigate]);
-  
-  return <Rights />;
-}
 
 describe('Rights Component', () => {
   afterEach(() => {
@@ -75,12 +62,12 @@ describe('Rights Component', () => {
     // Click English tab
     fireEvent.click(englishTab);
     const englishPane = container.querySelector('.tab-pane.active.skiptranslate');
-    expect(englishPane).toBeDefined();
+    expect(englishPane).not.toBeNull();
     
     // Click back to Translated tab
     fireEvent.click(translatedTab);
     const translatedPane = container.querySelector('.tab-pane.active:not(.skiptranslate)');
-    expect(translatedPane).toBeDefined();
+    expect(translatedPane).not.toBeNull();
   });
 
   it('shows modal when route has matching ctaSource id', () => {
@@ -94,7 +81,7 @@ describe('Rights Component', () => {
     
     // Modal should be shown in document
     const modal = document.querySelector('.modal.show');
-    expect(modal).toBeDefined();
+    expect(modal).not.toBeNull();
   });
 
   it('does not show modal when no route id present', () => {
@@ -126,7 +113,7 @@ describe('Rights Component', () => {
     
     // Modal should be shown initially
     let modal = document.querySelector('.modal.show');
-    expect(modal).toBeDefined();
+    expect(modal).not.toBeNull();
     
     // Unmount and remount with different id to trigger the useEffect cleanup branch
     unmount();
@@ -168,7 +155,7 @@ describe('Rights Component', () => {
     
     // Wait for initial navigation to ctaSource
     await waitFor(() => {
-      expect(document.querySelector('.modal.show')).toBeDefined();
+      expect(document.querySelector('.modal.show')).not.toBeNull();
     });
     
     // Wait for navigation away - this should trigger the id !== ctaSource branch
@@ -177,18 +164,10 @@ describe('Rights Component', () => {
     }, { timeout: 200 });
   });
 
-  it('renders ResourceModal component', () => {
-    const { container } = render(<BrowserRouter><Rights /></BrowserRouter>);
-    // ResourceModal always renders, just may not be shown
-    // We can verify it's in the DOM structure
-    const modalElement = container.querySelector('[role="dialog"]');
-    expect(modalElement !== null || modalElement === null).toBe(true); // Modal structure exists
-  });
-
   it('renders ResourceBtn with correct props', () => {
     const { container } = render(<BrowserRouter><Rights /></BrowserRouter>);
     const resourceBtn = container.querySelector('.resource-btn');
-    expect(resourceBtn).toBeDefined();
+    expect(resourceBtn).not.toBeNull();
     expect(resourceBtn.textContent).toBe(ctaTitle);
   });
 });
