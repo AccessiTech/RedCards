@@ -302,6 +302,125 @@ describe("ErrorBoundary", () => {
       expect(url).toContain("issues/new");
       expect(url).toContain("Reportable%20error");
     });
+
+    it("handles missing error message in report issue", () => {
+      const windowOpen = vi.fn();
+      window.open = windowOpen;
+
+      // Create an error boundary instance and manually set state without a message
+      class TestWrapper extends React.Component {
+        constructor(props) {
+          super(props);
+          this.errorBoundaryRef = React.createRef();
+        }
+
+        componentDidMount() {
+          // Manually trigger error state with missing message
+          if (this.errorBoundaryRef.current) {
+            this.errorBoundaryRef.current.setState({
+              hasError: true,
+              error: { stack: "some stack" }, // Error without message
+              errorInfo: { componentStack: "some component stack" }
+            });
+          }
+        }
+
+        render() {
+          return (
+            <ErrorBoundary ref={this.errorBoundaryRef}>
+              <div>Test content</div>
+            </ErrorBoundary>
+          );
+        }
+      }
+
+      render(<TestWrapper />);
+
+      const reportButton = screen.getByText(/Report Issue/i);
+      fireEvent.click(reportButton);
+
+      expect(windowOpen).toHaveBeenCalled();
+      const url = windowOpen.mock.calls[0][0];
+      expect(url).toContain("Unknown%20error");
+    });
+
+    it("handles missing error stack in report issue", () => {
+      const windowOpen = vi.fn();
+      window.open = windowOpen;
+
+      class TestWrapper extends React.Component {
+        constructor(props) {
+          super(props);
+          this.errorBoundaryRef = React.createRef();
+        }
+
+        componentDidMount() {
+          if (this.errorBoundaryRef.current) {
+            this.errorBoundaryRef.current.setState({
+              hasError: true,
+              error: { message: "Error with no stack" }, // Error without stack
+              errorInfo: { componentStack: "some component stack" }
+            });
+          }
+        }
+
+        render() {
+          return (
+            <ErrorBoundary ref={this.errorBoundaryRef}>
+              <div>Test content</div>
+            </ErrorBoundary>
+          );
+        }
+      }
+
+      render(<TestWrapper />);
+
+      const reportButton = screen.getByText(/Report Issue/i);
+      fireEvent.click(reportButton);
+
+      expect(windowOpen).toHaveBeenCalled();
+      const url = windowOpen.mock.calls[0][0];
+      expect(url).toContain("No%20stack%20trace");
+    });
+
+    it("handles missing component stack in report issue", () => {
+      const windowOpen = vi.fn();
+      window.open = windowOpen;
+
+      class TestWrapper extends React.Component {
+        constructor(props) {
+          super(props);
+          this.errorBoundaryRef = React.createRef();
+        }
+
+        componentDidMount() {
+          if (this.errorBoundaryRef.current) {
+            this.errorBoundaryRef.current.setState({
+              hasError: true,
+              error: { message: "Error message", stack: "Error stack" },
+              errorInfo: {} // ErrorInfo without componentStack
+            });
+          }
+        }
+
+        render() {
+          return (
+            <ErrorBoundary ref={this.errorBoundaryRef}>
+              <div>Test content</div>
+            </ErrorBoundary>
+          );
+        }
+      }
+
+      render(<TestWrapper />);
+
+      const reportButton = screen.getByText(/Report Issue/i);
+      fireEvent.click(reportButton);
+
+      expect(windowOpen).toHaveBeenCalled();
+      const url = windowOpen.mock.calls[0][0];
+      expect(url).toContain("No%20component%20stack");
+    });
   });
 
   describe("Accessibility", () => {
