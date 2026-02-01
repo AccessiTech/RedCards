@@ -30,7 +30,7 @@ function ResourceBtn({ source, data }) {
   );
 }
 
-ResourceBtn.prototype = {
+ResourceBtn.propTypes = {
   source: PropTypes.string,
   data: PropTypes.object,
 };

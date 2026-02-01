@@ -20,7 +20,7 @@ function ShareButton({ shareUrl, shareTite, shareText, shareAlt } = {}) {
     );
 }
 
-ShareButton.defaultProps = {
+ShareButton.propTypes = {
     shareUrl: PropTypes.string,
     shareTite: PropTypes.string,
     shareText: PropTypes.string,
