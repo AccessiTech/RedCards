@@ -48,8 +48,9 @@ export async function shareHandler({
       
       if (onSuccess) {
         onSuccess("Thanks for sharing!");
+      } else {
+        console.log("Thanks for sharing!");
       }
-      console.log("Thanks for sharing!");
     } else {
       // Fallback to clipboard on mobile if share not available
       if (!navigator.clipboard || !navigator.clipboard.writeText) {
