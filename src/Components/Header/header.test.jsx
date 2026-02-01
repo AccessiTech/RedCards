@@ -8,6 +8,7 @@ describe("Header", () => {
   let scrollIntoViewMock;
   let originalScrollIntoView;
   let alertMock;
+  let originalAlert;
   let matchMediaMock;
   let originalMatchMedia;
 
@@ -19,6 +20,7 @@ describe("Header", () => {
 
     // Mock alert
     alertMock = vi.fn();
+    originalAlert = global.alert;
     global.alert = alertMock;
 
     // Mock matchMedia
@@ -40,6 +42,8 @@ describe("Header", () => {
     vi.restoreAllMocks();
     // Restore original scrollIntoView
     Element.prototype.scrollIntoView = originalScrollIntoView;
+    // Restore original alert
+    global.alert = originalAlert;
     // Restore original matchMedia
     window.matchMedia = originalMatchMedia;
   });
