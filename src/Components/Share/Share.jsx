@@ -39,7 +39,6 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
         // Clear success message after 3 seconds
         timeoutRef.current = setTimeout(() => {
           setShareStatus({ type: null, message: "" });
-          timeoutRef.current = null;
         }, 3000);
       },
       onError: (message) => {
@@ -48,7 +47,6 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
         // Clear error message after 5 seconds
         timeoutRef.current = setTimeout(() => {
           setShareStatus({ type: null, message: "" });
-          timeoutRef.current = null;
         }, 5000);
       },
     });
