@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
 import { shareHandler } from "../../utils";
 
-function ShareButton({ shareUrl, shareTite, shareText, shareAlt } = {}) {
+function ShareButton({ shareUrl, shareTitle, shareText, shareAlt } = {}) {
     return (
         <Button
             variant="outline-secondary"
@@ -12,7 +12,7 @@ function ShareButton({ shareUrl, shareTite, shareText, shareAlt } = {}) {
             }}
             onClick={(e) => {
                 e.preventDefault();
-                shareHandler({ shareUrl, shareTite, shareText });
+                shareHandler({ shareUrl, shareTitle, shareText });
             }}
         >
             <i className="fas fa-share-alt" aria-hidden></i>
@@ -22,7 +22,7 @@ function ShareButton({ shareUrl, shareTite, shareText, shareAlt } = {}) {
 
 ShareButton.propTypes = {
     shareUrl: PropTypes.string,
-    shareTite: PropTypes.string,
+    shareTitle: PropTypes.string,
     shareText: PropTypes.string,
     shareAlt: PropTypes.string,
 };
