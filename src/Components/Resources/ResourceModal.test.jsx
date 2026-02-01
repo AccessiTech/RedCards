@@ -274,10 +274,9 @@ describe("ResourceModal", () => {
     );
     
     const closeButton = document.querySelector(".btn-close");
-    if (closeButton) {
-      fireEvent.click(closeButton);
-      expect(mockNavigate).toHaveBeenCalledWith("/");
-    }
+    expect(closeButton).not.toBeNull();
+    fireEvent.click(closeButton);
+    expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
   it("renders ShareButton in modal header", () => {
