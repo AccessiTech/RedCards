@@ -68,10 +68,15 @@ describe("Header", () => {
 
   test("hides Translate component when disableTranslate is true", () => {
     const { container } = render(<Header disableTranslate={true} />);
-    // Translate component has a specific class or structure we can check
-    expect(container.querySelector(".goog-te-combo")).toBeNull();
+    // When translate is disabled, the root translate element should not be rendered
+    expect(container.querySelector("#google_translate_element")).toBeNull();
   });
 
+  test("shows Translate component when disableTranslate is false", () => {
+    const { container } = render(<Header />);
+    // When translate is enabled, the root translate element should be rendered
+    expect(container.querySelector("#google_translate_element")).not.toBeNull();
+  });
   describe("Scan button", () => {
     test("scrolls to QR code section when clicked", () => {
       const { container } = render(<Header />);
