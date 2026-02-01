@@ -197,10 +197,6 @@ describe("Header", () => {
       const userChoicePromise = new Promise((resolve) => {
         resolveUserChoice = resolve;
       });
-      const mockDeferredPrompt = {
-        prompt: mockPrompt,
-        userChoice: userChoicePromise,
-      };
 
       const { rerender, container } = render(<Header />);
       const event = new Event("beforeinstallprompt");
