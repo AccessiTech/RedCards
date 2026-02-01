@@ -456,6 +456,37 @@ git config --global user.signingkey <your-gpg-key-id>
 
 ---
 
+## Phase 0: Security & Dependency Updates (Priority: URGENT)
+
+**Goal:** Address critical security vulnerabilities before major refactoring
+
+### 0.1 Dependency Security Audit
+**Files:** `package.json`, `package-lock.json`
+
+**Status:** ⚠️ **Identified January 31, 2026** - GitHub Dependabot found 11 vulnerabilities:
+- 2 critical
+- 1 high
+- 7 moderate
+- 1 low
+
+**Tasks:**
+- [ ] Run `npm audit` to identify vulnerable packages
+- [ ] Run `npm audit fix` for automatic patches
+- [ ] Review breaking changes from major version updates
+- [ ] Manually update packages requiring major version bumps
+- [ ] Test application after updates (`npm test`, `npm run build`)
+- [ ] Verify no regressions in functionality
+- [ ] Document any breaking changes or migration notes
+- [ ] Commit updates separately from feature work
+
+**Outcome:** All dependencies patched, no critical/high vulnerabilities
+
+**Dependencies:** None - should be completed before Phase 1
+
+**Note:** Scheduled for separate branch/PR to avoid mixing security fixes with feature work.
+
+---
+
 ## Phase 1: Foundation & Critical Fixes (Priority: HIGH)
 
 **Goal:** Fix critical bugs, restore Redux, establish error handling infrastructure
@@ -888,17 +919,18 @@ git config --global user.signingkey <your-gpg-key-id>
 
 | Phase | Duration | Dependencies |
 |-------|----------|--------------|
-| **Phase 1**: Foundation & Fixes | 2-3 days | None |
+| **Phase 0**: Security Updates | 1 day | None |
+| **Phase 1**: Foundation & Fixes | 2-3 days | Phase 0 (optional) |
 | **Phase 2**: Offline Architecture | 3-4 days | Phase 1.2 |
 | **Phase 3**: i18n & Config | 4-5 days | None (parallel) |
 | **Phase 4**: Accessibility | 3-4 days | None (parallel) |
 | **Phase 5**: Testing & Docs | 3-4 days | Phases 1-4 |
 | **Phase 6**: Capacitor Prep | 1-2 days | Phase 5 |
-| **Total** | **16-22 days** | (with parallelization) |
+| **Total** | **17-23 days** | (with parallelization) |
 
-**Aggressive**: 3 weeks full-time  
-**Realistic**: 4-6 weeks part-time  
-**Conservative**: 8 weeks with thorough testing
+**Aggressive**: 3-4 weeks full-time  
+**Realistic**: 5-6 weeks part-time  
+**Conservative**: 8-10 weeks with thorough testing
 
 ---
 
