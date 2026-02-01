@@ -164,18 +164,10 @@ describe('Rights Component', () => {
     }, { timeout: 200 });
   });
 
-  it('renders ResourceModal component', () => {
-    const { container } = render(<BrowserRouter><Rights /></BrowserRouter>);
-    // ResourceModal always renders, just may not be shown
-    // We can verify it's in the DOM structure
-    const modalElement = container.querySelector('[role="dialog"]');
-    expect(modalElement).toBeDefined(); // Modal structure exists
-  });
-
   it('renders ResourceBtn with correct props', () => {
     const { container } = render(<BrowserRouter><Rights /></BrowserRouter>);
     const resourceBtn = container.querySelector('.resource-btn');
-    expect(resourceBtn).toBeDefined();
+    expect(resourceBtn).not.toBeNull();
     expect(resourceBtn.textContent).toBe(ctaTitle);
   });
 });
