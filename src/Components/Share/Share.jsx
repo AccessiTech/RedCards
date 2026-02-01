@@ -31,8 +31,6 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
         setTimeout(() => setShareStatus({ type: null, message: "" }), 5000);
       },
     });
-
-    setIsSharing(false);
   };
 
   return (
