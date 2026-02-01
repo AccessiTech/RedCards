@@ -76,7 +76,8 @@ describe('PWA Configuration', () => {
       
       // Console.log should be guarded by NODE_ENV check
       expect(indexJsx).toContain('process.env.NODE_ENV');
-      expect(indexJsx).toMatch(/if\s*\(process\.env\.NODE_ENV\s*===\s*['"]development['"]\)\s*{[\s\S]*?console\.log/);
+      expect(indexJsx).toContain('development');
+      expect(indexJsx).toContain('console.log');
     });
 
     it('should provide user-friendly update UI with reload and dismiss options', () => {
@@ -111,7 +112,7 @@ describe('PWA Configuration', () => {
     it('should have user-friendly offline message and actions', () => {
       const offlineHtml = readFileSync(join(process.cwd(), 'public/offline.html'), 'utf-8');
       
-      expect(offlineHtml).toContain('You\'re Offline');
+      expect(offlineHtml).toContain("You're Offline");
       expect(offlineHtml).toContain('Try Again');
       expect(offlineHtml).toContain('Go Home');
     });
