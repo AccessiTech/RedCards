@@ -4,8 +4,7 @@ import Share from "./Share";
 
 describe("Share", () => {
   test("Share renders without crashing", () => {
-    expect(Share).not.toThrow();
-    expect(render(<Share />)).toBeDefined();
+    expect(() => render(<Share />)).not.toThrow();
   });
 
   test("Share renders a div element", () => {

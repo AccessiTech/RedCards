@@ -7,6 +7,7 @@ import { norCalResistNumber } from "../Rights/content";
 function Header({ title, lead, disableTranslate } = {}) {
   const deferredPromptRef = useRef(null);
   const [hideSaveButton, setHideSaveButton] = useState(false);
+  const [shareStatus, setShareStatus] = useState({ type: null, message: "" });
 
   useEffect(() => {
     function handleBeforeInstallPrompt(event) {
@@ -103,16 +104,50 @@ function Header({ title, lead, disableTranslate } = {}) {
                 Save
               </Button>
             )}
-            <Button variant="outline-primary" size="lg" onClick={() => {
-              if (navigator.share) {
-                navigator.share({
-                  title: document.title,
-                  url: window.location.href,
-                });
-              } else {
-                // copy and paste dialog as fallback
-                navigator.clipboard.writeText(window.location.href);
-                alert("Link copied to clipboard");
+            <Button variant="outline-primary" size="lg" onClick={async () => {
+              setShareStatus({ type: "loading", message: "" });
+              
+              try {
+                // Feature detection
+                if (!navigator.share && (!navigator.clipboard || !navigator.clipboard.writeText)) {
+                  throw new Error("Share and Clipboard APIs are not supported in this browser");
+                }
+
+                if (navigator.share) {
+                  await navigator.share({
+                    title: document.title,
+                    url: window.location.href,
+                  });
+                  setShareStatus({ type: "success", message: "Thanks for sharing!" });
+                } else {
+                  // Fallback to clipboard
+                  await navigator.clipboard.writeText(window.location.href);
+                  setShareStatus({ type: "success", message: "Link copied to clipboard" });
+                  alert("Link copied to clipboard");
+                }
+
+                // Clear success message after 3 seconds
+                setTimeout(() => setShareStatus({ type: null, message: "" }), 3000);
+              } catch (error) {
+                // User cancelled share dialog (not an error)
+                if (error.name === "AbortError") {
+                  setShareStatus({ type: null, message: "" });
+                  return;
+                }
+
+                // Permission denied for clipboard
+                if (error.name === "NotAllowedError") {
+                  const message = "Permission denied. Please allow clipboard access.";
+                  setShareStatus({ type: "error", message });
+                  alert(message);
+                  return;
+                }
+
+                // Other errors
+                const message = error.message || "Unable to share. Please try again.";
+                setShareStatus({ type: "error", message });
+                alert(`Share failed: ${message}`);
+                console.error("Share failed:", error);
               }
             }}>
               Share
