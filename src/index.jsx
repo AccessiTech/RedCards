@@ -3,6 +3,20 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import ErrorBoundary from './Components/ErrorBoundary/ErrorBoundary.jsx';
 import App from './App/App.jsx'
 import './scss/index.scss'
+import { registerSW } from 'virtual:pwa-register';
+
+// Register service worker with auto-update
+const updateSW = registerSW({
+  onNeedRefresh() {
+    // TODO: Phase 2.3 - Show update prompt to user
+    if (confirm('New content available. Reload to update?')) {
+      updateSW(true);
+    }
+  },
+  onOfflineReady() {
+    console.log('App ready to work offline');
+  },
+});
 
 // Optional: Global error handler for analytics
 const handleError = (error, errorInfo) => {
