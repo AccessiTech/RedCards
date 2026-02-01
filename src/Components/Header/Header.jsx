@@ -3,6 +3,7 @@ import { Col, Row, Button } from "react-bootstrap";
 import Translate from "../Translate/Translate";
 import PropTypes from "prop-types";
 import { norCalResistNumber } from "../Rights/content";
+import { shareHandler } from "../../utils";
 
 function Header({ title, lead, disableTranslate } = {}) {
   const deferredPromptRef = useRef(null);
@@ -107,48 +108,26 @@ function Header({ title, lead, disableTranslate } = {}) {
             <Button variant="outline-primary" size="lg" onClick={async () => {
               setShareStatus({ type: "loading", message: "" });
               
-              try {
-                // Feature detection
-                if (!navigator.share && (!navigator.clipboard || !navigator.clipboard.writeText)) {
-                  throw new Error("Share and Clipboard APIs are not supported in this browser");
-                }
-
-                if (navigator.share) {
-                  await navigator.share({
-                    title: document.title,
-                    url: window.location.href,
-                  });
-                  setShareStatus({ type: "success", message: "Thanks for sharing!" });
-                } else {
-                  // Fallback to clipboard
-                  await navigator.clipboard.writeText(window.location.href);
-                  setShareStatus({ type: "success", message: "Link copied to clipboard" });
-                  alert("Link copied to clipboard");
-                }
-
-                // Clear success message after 3 seconds
-                setTimeout(() => setShareStatus({ type: null, message: "" }), 3000);
-              } catch (error) {
-                // User cancelled share dialog (not an error)
-                if (error.name === "AbortError") {
-                  setShareStatus({ type: null, message: "" });
-                  return;
-                }
-
-                // Permission denied for clipboard
-                if (error.name === "NotAllowedError") {
-                  const message = "Permission denied. Please allow clipboard access.";
+              await shareHandler({
+                shareUrl: window.location.href,
+                shareTitle: document.title,
+                onSuccess: (message) => {
+                  setShareStatus({ type: "success", message });
+                  // Show alert for clipboard copy (maintains original behavior)
+                  if (message.includes("clipboard")) {
+                    alert(message);
+                  }
+                  // Clear success message after 3 seconds
+                  setTimeout(() => setShareStatus({ type: null, message: "" }), 3000);
+                },
+                onError: (message) => {
                   setShareStatus({ type: "error", message });
-                  alert(message);
-                  return;
-                }
-
-                // Other errors
-                const message = error.message || "Unable to share. Please try again.";
-                setShareStatus({ type: "error", message });
-                alert(`Share failed: ${message}`);
-                console.error("Share failed:", error);
-              }
+                  // Show alert for errors (maintains original behavior)
+                  alert(message.includes("Permission denied") ? message : `Share failed: ${message}`);
+                  // Clear error message after 5 seconds
+                  setTimeout(() => setShareStatus({ type: null, message: "" }), 5000);
+                },
+              });
             }}>
               Share
             </Button>
