@@ -276,7 +276,7 @@ describe("Share", () => {
   });
 
   describe("handleShare - Timeout Behavior", () => {
-    test("success message clears after timeout",  async () => {
+    test("success message clears after timeout", async () => {
       mockShareHandler.mockImplementation(async ({ onSuccess }) => {
         onSuccess("Link copied to clipboard");
       });
@@ -425,7 +425,6 @@ describe("Share", () => {
 
       // No errors should occur (timeout was cleaned up)
       // If timeout wasn't cleared, it would try to update unmounted component
-      expect(true).toBe(true); // Test passes if no errors thrown
     });
 
     test("multiple unmounts don't cause errors", async () => {
