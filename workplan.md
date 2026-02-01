@@ -570,6 +570,55 @@ git config --global user.signingkey <your-gpg-key-id>
 
 ---
 
+### 1.5 Establish Test Coverage Baseline
+**Files:** All component test files, `vitest.config.js`
+
+**Current Coverage (February 1, 2026):**
+- **Overall:** 90.48% statements, 77.47% branches, 72% functions
+- **Strong coverage:** `utils.js`, `App.jsx`, `ErrorBoundary.jsx`, `Footer.jsx`, `Share.jsx`, `Translate.jsx` (100%)
+- **Needs improvement:**
+  - `Header.jsx`: 43.24% (lines 47-64, 102, 108-122 uncovered)
+  - `ShareButton.jsx`: 41.66% (lines 5-21 uncovered) 
+  - `ResourceBtn.jsx`: 67.74% (lines 16-26 uncovered)
+  - `ResourceModal.jsx`: Branch coverage only 12.5%
+  - `Resources.jsx`: Branch coverage only 25%
+  - `Rights.jsx`: Branch coverage only 41.66%
+
+**Tasks:**
+- [ ] Add tests for `Header.jsx` uncovered lines:
+  - [ ] Test handlePrint function
+  - [ ] Test handleScan function (QR code generation)
+  - [ ] Test handleScreenshot function
+  - [ ] Test error states for all handlers
+- [ ] Add tests for `ShareButton.jsx`:
+  - [ ] Test button click behavior
+  - [ ] Test prop variations (different shareUrls)
+  - [ ] Test integration with shareHandler
+- [ ] Add tests for `ResourceBtn.jsx`:
+  - [ ] Test modal opening logic
+  - [ ] Test different resource types
+- [ ] Improve branch coverage in conditional logic:
+  - [ ] Test all branches in `ResourceModal.jsx` (different resource types)
+  - [ ] Test all branches in `Resources.jsx` (loading/error states)
+  - [ ] Test all branches in `Rights.jsx` (different tab states)
+- [ ] Configure coverage thresholds in `vitest.config.js`:
+  - [ ] Set minimum 85% for statements, branches, functions, lines
+  - [ ] Add coverage check to prevent regressions
+- [ ] Add coverage badge to README.md
+- [ ] Document testing standards in CONTRIBUTING.md
+
+**Target Coverage:**
+- **Statements:** ≥85% (currently 90.48% ✅)
+- **Branches:** ≥85% (currently 77.47% ⚠️)
+- **Functions:** ≥85% (currently 72% ⚠️)
+- **Lines:** ≥85% (currently 90.48% ✅)
+
+**Outcome:** Professional test coverage with thresholds preventing regression
+
+**Dependencies:** Phase 1.4 (all fixes in place before locking coverage)
+
+---
+
 ## Phase 2: Offline-First Architecture (Priority: HIGH)
 
 **Goal:** Enable complete offline functionality with service worker caching
@@ -954,16 +1003,17 @@ After initial implementation, Redux was removed in favor of simpler state manage
 |-------|----------|--------------|
 | **Phase 0**: Security Updates | 1 day | None |
 | **Phase 1**: Foundation & Fixes | 2-3 days | Phase 0 (optional) |
-| **Phase 2**: Offline Architecture | 3-4 days | Phase 1.2 |
+| **Phase 1.5**: Test Coverage | 2-3 days | Phase 1.4 |
+| **Phase 2**: Offline Architecture | 3-4 days | Phase 1.5 |
 | **Phase 3**: i18n & Config | 4-5 days | None (parallel) |
 | **Phase 4**: Accessibility | 3-4 days | None (parallel) |
 | **Phase 5**: Testing & Docs | 3-4 days | Phases 1-4 |
 | **Phase 6**: Capacitor Prep | 1-2 days | Phase 5 |
-| **Total** | **17-23 days** | (with parallelization) |
+| **Total** | **19-26 days** | (with parallelization) |
 
-**Aggressive**: 3-4 weeks full-time  
-**Realistic**: 5-6 weeks part-time  
-**Conservative**: 8-10 weeks with thorough testing
+**Aggressive**: 4-5 weeks full-time  
+**Realistic**: 6-7 weeks part-time  
+**Conservative**: 9-11 weeks with thorough testing
 
 ---
 
