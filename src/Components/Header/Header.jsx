@@ -113,11 +113,17 @@ function Header({ title, lead, disableTranslate } = {}) {
                 shareTitle: document.title,
                 onSuccess: (message) => {
                   setShareStatus({ type: "success", message });
+                  // Show alert for clipboard copy (maintains original behavior)
+                  if (message.includes("clipboard")) {
+                    alert(message);
+                  }
                   // Clear success message after 3 seconds
                   setTimeout(() => setShareStatus({ type: null, message: "" }), 3000);
                 },
                 onError: (message) => {
                   setShareStatus({ type: "error", message });
+                  // Show alert for errors (maintains original behavior)
+                  alert(message.includes("Permission denied") ? message : `Share failed: ${message}`);
                   // Clear error message after 5 seconds
                   setTimeout(() => setShareStatus({ type: null, message: "" }), 5000);
                 },
