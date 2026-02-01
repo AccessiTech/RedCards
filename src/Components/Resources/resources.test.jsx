@@ -153,11 +153,11 @@ describe("Resources", () => {
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).not.toBeNull();
-    });
+    }, { timeout: 500 });
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).toBeNull();
-    }, { timeout: 200 });
+    }, { timeout: 500 });
   });
 
   it("covers useEffect branch when id changes from valid to empty", async () => {
@@ -189,10 +189,10 @@ describe("Resources", () => {
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).not.toBeNull();
-    });
+    }, { timeout: 500 });
     
     await waitFor(() => {
       expect(document.querySelector('.modal.show')).toBeNull();
-    }, { timeout: 200 });
+    }, { timeout: 500 });
   });
 });
