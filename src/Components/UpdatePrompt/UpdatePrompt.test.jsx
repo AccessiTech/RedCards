@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import UpdatePrompt from './UpdatePrompt';
 
 describe('UpdatePrompt Component', () => {
@@ -42,6 +42,52 @@ describe('UpdatePrompt Component', () => {
     
     expect(container.querySelector('.update-prompt-container')).toBeTruthy();
     expect(container.querySelector('.update-prompt-toast')).toBeTruthy();
+  });
+
+  it('should call onUpdate when Reload button is clicked', () => {
+    const onUpdate = vi.fn();
+    const { container } = render(
+      <UpdatePrompt show={true} onUpdate={onUpdate} />
+    );
+    
+    const reloadButton = container.querySelector('.update-prompt-reload');
+    expect(reloadButton).toBeTruthy();
+    
+    fireEvent.click(reloadButton);
+    
+    expect(onUpdate).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call onDismiss when Later button is clicked', () => {
+    const onDismiss = vi.fn();
+    const { container } = render(
+      <UpdatePrompt show={true} onDismiss={onDismiss} />
+    );
+    
+    const laterButton = container.querySelector('.update-prompt-dismiss');
+    expect(laterButton).toBeTruthy();
+    
+    fireEvent.click(laterButton);
+    
+    expect(onDismiss).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not throw error when clicking Reload button without onUpdate callback', () => {
+    const { container } = render(<UpdatePrompt show={true} />);
+    
+    const reloadButton = container.querySelector('.update-prompt-reload');
+    expect(reloadButton).toBeTruthy();
+    
+    expect(() => fireEvent.click(reloadButton)).not.toThrow();
+  });
+
+  it('should not throw error when clicking Later button without onDismiss callback', () => {
+    const { container } = render(<UpdatePrompt show={true} />);
+    
+    const laterButton = container.querySelector('.update-prompt-dismiss');
+    expect(laterButton).toBeTruthy();
+    
+    expect(() => fireEvent.click(laterButton)).not.toThrow();
   });
 });
 
