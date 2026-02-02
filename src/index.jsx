@@ -8,7 +8,7 @@ import './scss/index.scss';
 import { registerSW } from 'virtual:pwa-register';
 
 // Root component that manages service worker update state
-function Root() {
+export function Root() {
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
   const [updateSWCallback, setUpdateSWCallback] = useState(null);
 
