@@ -51,7 +51,7 @@ export default defineConfig(() => {
           ]
         },
         workbox: {
-          globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,pdf}"],
+          globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg}"],
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -59,7 +59,7 @@ export default defineConfig(() => {
               options: {
                 cacheName: "google-fonts-cache",
                 expiration: {
-                  maxEntries: 10,
+                  maxEntries: 30,
                   maxAgeSeconds: 60 * 60 * 24 * 365 // 365 days
                 },
                 cacheableResponse: {
@@ -73,7 +73,7 @@ export default defineConfig(() => {
               options: {
                 cacheName: "gstatic-fonts-cache",
                 expiration: {
-                  maxEntries: 10,
+                  maxEntries: 30,
                   maxAgeSeconds: 60 * 60 * 24 * 365 // 365 days
                 },
                 cacheableResponse: {
@@ -88,7 +88,7 @@ export default defineConfig(() => {
                 cacheName: "google-translate-cache",
                 expiration: {
                   maxEntries: 20,
-                  maxAgeSeconds: 60 * 60 * 24 // 24 hours
+                  maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
                 },
                 cacheableResponse: {
                   statuses: [0, 200]
@@ -98,7 +98,7 @@ export default defineConfig(() => {
           ]
         },
         devOptions: {
-          enabled: true,
+          enabled: process.env.NODE_ENV === "production",
           type: "module"
         }
       })
