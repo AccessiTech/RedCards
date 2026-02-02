@@ -36,6 +36,7 @@ function ResourceModal({ showModal, modalContent }) {
             </p>
 
             <Button
+              as="a"
               variant="primary-outline"
               href={link.url}
               target="_blank"

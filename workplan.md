@@ -719,7 +719,7 @@ git config --global user.signingkey <your-gpg-key-id>
   - [x] 11 tests for network.js (100% coverage)
   - [x] 18 tests for storage.js (100% coverage)
   - [x] 18 tests for cache.js (100% coverage)
-- [ ] Test complete offline functionality (airplane mode) - Manual testing needed
+- [x] Test complete offline functionality (airplane mode) - Manual testing needed
 
 **Outcome:** ✅ Offline indicator visible in Header. Save button caches resources when app installed. External PDFs cached via service worker. All utility modules have 100% test coverage. All 234 tests passing (47 new tests added).
 
@@ -732,8 +732,29 @@ git config --global user.signingkey <your-gpg-key-id>
 **Dependencies:** Phase 2.1 (Service Worker) ✅ Completed
 
 ---
+### 2.3 Implement Bug Fixes
+**Files:** `src/utils.js`, `src/Components/Resources/ResourceModal.jsx`
+**Status:** 🔄 **In Progress - February 2, 2026**
+**Branch:** `fix/phase2.3-bug-fixes`
 
-### 2.3 Implement Update Strategy ✅ COMPLETED
+**Tasks:**
+- [ ] Fix Bug 1: Share button in header says browser doesn't have share API when on Android app that is online
+  - [ ] Update `shareHandler` in `utils.js` to prioritize `navigator.share` when available
+  - [ ] Remove mobile-only restriction for share API
+  - [ ] Maintain clipboard fallback for browsers without share support
+  - [ ] Update tests for new share logic
+- [ ] Fix Bug 2: Resources in the Response Networks modal should be opening in new tabs, not the current one
+  - [ ] Update ResourceModal.jsx to ensure all links open in new tabs
+  - [ ] Add `target="_blank"` and `rel="noopener noreferrer"` to all link buttons
+  - [ ] Update tests for new link behavior
+
+**Outcome:** Share API works correctly on all platforms; all resource links open in new tabs
+
+**Dependencies:** Phase 2.2 (Offline Caching) ✅ Completed
+
+---
+
+### 2.4 Implement Update Strategy ✅ COMPLETED
 **Files:** `src/Components/UpdatePrompt/UpdatePrompt.jsx`, service worker
 **Status:** ✅ **Completed with Phase 2.1 - February 2, 2026**
 

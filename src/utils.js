@@ -19,26 +19,8 @@ export async function shareHandler({
   onSuccess,
   onError,
 }) {
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
   try {
-    // Desktop: Copy to clipboard
-    if (!isMobile) {
-      // Feature detection for Clipboard API
-      if (!navigator.clipboard || !navigator.clipboard.writeText) {
-        throw new Error("Clipboard API not supported in this browser");
-      }
-
-      await navigator.clipboard.writeText(shareUrl);
-      if (onSuccess) {
-        onSuccess("Link copied to clipboard");
-      } else {
-        alert("Link copied to clipboard");
-      }
-      return;
-    }
-
-    // Mobile: Use native share if available
+    // Prioritize native share API when available (works on mobile and some desktop browsers)
     if (navigator.share) {
       await navigator.share({
         title: shareTitle || document.title,
@@ -51,18 +33,19 @@ export async function shareHandler({
       } else {
         console.log("Thanks for sharing!");
       }
-    } else {
-      // Fallback to clipboard on mobile if share not available
-      if (!navigator.clipboard || !navigator.clipboard.writeText) {
-        throw new Error("Neither Share API nor Clipboard API are supported in this browser");
-      }
+      return;
+    }
 
-      await navigator.clipboard.writeText(shareUrl);
-      if (onSuccess) {
-        onSuccess("Link copied to clipboard");
-      } else {
-        alert("Link copied to clipboard");
-      }
+    // Fallback to clipboard API
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      throw new Error("Neither Share API nor Clipboard API are supported in this browser");
+    }
+
+    await navigator.clipboard.writeText(shareUrl);
+    if (onSuccess) {
+      onSuccess("Link copied to clipboard");
+    } else {
+      alert("Link copied to clipboard");
     }
   } catch (error) {
     // User cancelled share dialog (not an error)
