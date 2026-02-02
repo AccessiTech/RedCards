@@ -109,7 +109,7 @@ function Header({ title, lead, disableTranslate } = {}) {
       <Row>
         <Col style={{ textAlign: "center" }}>
           {/* Offline/Online Indicator */}
-          <div 
+          {/* <div 
             style={{ 
               position: 'absolute', 
               display: 'none',
@@ -126,7 +126,7 @@ function Header({ title, lead, disableTranslate } = {}) {
             role="status"
           >
             {online ? '🟢' : '🔴'}
-          </div>
+          </div> */}
 
           <Button
             href={

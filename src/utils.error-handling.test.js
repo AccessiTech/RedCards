@@ -46,7 +46,28 @@ describe("shareHandler - Error Handling", () => {
   });
 
   describe("Feature Detection", () => {
-    it("detects and uses Clipboard API on desktop", async () => {
+    it("prioritizes Share API when available", async () => {
+      await shareHandler({
+        shareUrl: "https://example.com",
+        shareTitle: "Test Title",
+        shareText: "Test Text",
+      });
+
+      expect(mockShare).toHaveBeenCalledWith({
+        title: "Test Title",
+        text: "Test Text",
+        url: "https://example.com",
+      });
+      expect(mockClipboard.writeText).not.toHaveBeenCalled();
+    });
+
+    it("falls back to Clipboard API when Share API not available", async () => {
+      // Remove share API
+      Object.defineProperty(global.navigator, "share", {
+        value: undefined,
+        writable: true,
+      });
+
       await shareHandler({
         shareUrl: "https://example.com",
       });
@@ -54,23 +75,6 @@ describe("shareHandler - Error Handling", () => {
       expect(mockClipboard.writeText).toHaveBeenCalledWith("https://example.com");
       expect(mockShare).not.toHaveBeenCalled();
       expect(global.alert).toHaveBeenCalledWith("Link copied to clipboard");
-    });
-
-    it("throws error when Clipboard API is not available on desktop", async () => {
-      // Remove clipboard API
-      Object.defineProperty(global.navigator, "clipboard", {
-        value: undefined,
-        writable: true,
-      });
-
-      const onError = vi.fn();
-      await shareHandler({
-        shareUrl: "https://example.com",
-        onError,
-      });
-
-      expect(onError).toHaveBeenCalledWith("Clipboard API not supported in this browser");
-      expect(mockClipboard.writeText).not.toHaveBeenCalled();
     });
 
     it("uses Share API on mobile when available", async () => {
@@ -115,13 +119,7 @@ describe("shareHandler - Error Handling", () => {
       expect(global.alert).toHaveBeenCalledWith("Link copied to clipboard");
     });
 
-    it("throws error when neither Share nor Clipboard API available on mobile", async () => {
-      // Mock mobile user agent
-      Object.defineProperty(global.navigator, "userAgent", {
-        value: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)",
-        writable: true,
-      });
-
+    it("throws error when neither Share nor Clipboard API available", async () => {
       // Remove both APIs
       Object.defineProperty(global.navigator, "share", {
         value: undefined,
@@ -175,6 +173,12 @@ describe("shareHandler - Error Handling", () => {
 
   describe("Error Handling - Permissions", () => {
     it("handles clipboard permission denied error", async () => {
+      // Remove share API to force clipboard usage
+      Object.defineProperty(global.navigator, "share", {
+        value: undefined,
+        writable: true,
+      });
+
       // Mock clipboard rejection with NotAllowedError
       const permissionError = new Error("Permission denied");
       permissionError.name = "NotAllowedError";
@@ -193,6 +197,12 @@ describe("shareHandler - Error Handling", () => {
     });
 
     it("shows alert when permission denied and no onError callback", async () => {
+      // Remove share API to force clipboard usage
+      Object.defineProperty(global.navigator, "share", {
+        value: undefined,
+        writable: true,
+      });
+
       // Mock clipboard rejection with NotAllowedError
       const permissionError = new Error("Permission denied");
       permissionError.name = "NotAllowedError";
@@ -210,6 +220,12 @@ describe("shareHandler - Error Handling", () => {
 
   describe("Error Handling - Generic Errors", () => {
     it("handles generic clipboard errors", async () => {
+      // Remove share API to force clipboard usage
+      Object.defineProperty(global.navigator, "share", {
+        value: undefined,
+        writable: true,
+      });
+
       const genericError = new Error("Network error");
       mockClipboard.writeText.mockRejectedValue(genericError);
 
@@ -224,6 +240,12 @@ describe("shareHandler - Error Handling", () => {
     });
 
     it("handles errors without message", async () => {
+      // Remove share API to force clipboard usage
+      Object.defineProperty(global.navigator, "share", {
+        value: undefined,
+        writable: true,
+      });
+
       const errorWithoutMessage = new Error();
       errorWithoutMessage.message = "";
       mockClipboard.writeText.mockRejectedValue(errorWithoutMessage);
@@ -238,6 +260,12 @@ describe("shareHandler - Error Handling", () => {
     });
 
     it("shows alert for generic errors when no onError callback", async () => {
+      // Remove share API to force clipboard usage
+      Object.defineProperty(global.navigator, "share", {
+        value: undefined,
+        writable: true,
+      });
+
       const genericError = new Error("Something went wrong");
       mockClipboard.writeText.mockRejectedValue(genericError);
 
@@ -250,15 +278,15 @@ describe("shareHandler - Error Handling", () => {
   });
 
   describe("Success Callbacks", () => {
-    it("calls onSuccess callback on desktop clipboard success", async () => {
+    it("calls onSuccess callback when Share API succeeds", async () => {
       const onSuccess = vi.fn();
       await shareHandler({
         shareUrl: "https://example.com",
         onSuccess,
       });
 
-      expect(onSuccess).toHaveBeenCalledWith("Link copied to clipboard");
-      expect(global.alert).not.toHaveBeenCalled(); // onSuccess provided, so no alert
+      expect(onSuccess).toHaveBeenCalledWith("Thanks for sharing!");
+      expect(global.console.log).not.toHaveBeenCalled(); // onSuccess provided, so no console.log
     });
 
     it("calls onSuccess callback on mobile share success", async () => {
@@ -279,14 +307,8 @@ describe("shareHandler - Error Handling", () => {
       expect(global.console.log).not.toHaveBeenCalled(); // onSuccess provided, so no console.log
     });
 
-    it("calls onSuccess callback on mobile clipboard fallback", async () => {
-      // Mock mobile user agent
-      Object.defineProperty(global.navigator, "userAgent", {
-        value: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)",
-        writable: true,
-      });
-
-      // Remove share API
+    it("calls onSuccess callback on clipboard fallback", async () => {
+      // Remove share API to force clipboard usage
       Object.defineProperty(global.navigator, "share", {
         value: undefined,
         writable: true,
@@ -304,18 +326,18 @@ describe("shareHandler - Error Handling", () => {
   });
 
   describe("Default Behavior (No Callbacks)", () => {
-    it("shows alert on desktop success when no onSuccess callback", async () => {
+    it("logs to console when Share API succeeds and no onSuccess callback", async () => {
       await shareHandler({
         shareUrl: "https://example.com",
       });
 
-      expect(global.alert).toHaveBeenCalledWith("Link copied to clipboard");
+      expect(global.console.log).toHaveBeenCalledWith("Thanks for sharing!");
     });
 
-    it("logs to console on mobile share success when no onSuccess callback", async () => {
-      // Mock mobile user agent
-      Object.defineProperty(global.navigator, "userAgent", {
-        value: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)",
+    it("shows alert when clipboard fallback succeeds and no onSuccess callback", async () => {
+      // Remove share API to force clipboard usage
+      Object.defineProperty(global.navigator, "share", {
+        value: undefined,
         writable: true,
       });
 
@@ -323,7 +345,7 @@ describe("shareHandler - Error Handling", () => {
         shareUrl: "https://example.com",
       });
 
-      expect(global.console.log).toHaveBeenCalledWith("Thanks for sharing!");
+      expect(global.alert).toHaveBeenCalledWith("Link copied to clipboard");
     });
   });
 });
