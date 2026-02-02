@@ -112,6 +112,7 @@ function Header({ title, lead, disableTranslate } = {}) {
           <div 
             style={{ 
               position: 'absolute', 
+              display: 'none',
               top: '10px', 
               right: '10px',
               fontSize: '1.5rem',
