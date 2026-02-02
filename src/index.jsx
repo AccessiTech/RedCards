@@ -1,8 +1,7 @@
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from "react-router";
+import ReactDOM from 'react-dom/client';
 import ErrorBoundary from './Components/ErrorBoundary/ErrorBoundary.jsx';
-import App from './App/App.jsx'
-import './scss/index.scss'
+import Root from './Root/Root.jsx';
+import './scss/index.scss';
 
 // Optional: Global error handler for analytics
 const handleError = (error, errorInfo) => {
@@ -17,11 +16,6 @@ const handleError = (error, errorInfo) => {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ErrorBoundary onError={handleError}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/:id" element={<App />} />
-      </Routes>
-    </BrowserRouter>
+    <Root />
   </ErrorBoundary>
 );

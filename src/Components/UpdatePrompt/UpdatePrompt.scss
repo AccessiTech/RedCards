@@ -1,0 +1,58 @@
+.update-prompt-container {
+  z-index: 9999;
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.update-prompt-toast {
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  min-width: 300px;
+}
+
+.update-prompt-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.update-prompt-message {
+  flex: 1;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.update-prompt-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.update-prompt-reload {
+  background-color: #4caf50;
+  border: none;
+  
+  &:hover {
+    background-color: #45a049;
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.5);
+  }
+}
+
+.update-prompt-dismiss {
+  border-color: #777;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #999;
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(119, 119, 119, 0.5);
+  }
+}
