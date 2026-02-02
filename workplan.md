@@ -715,16 +715,19 @@ git config --global user.signingkey <your-gpg-key-id>
 - [x] Implement cache versioning strategy (cache name: `redcards-resources-v1`)
 - [x] Add runtime caching for ilrc.org PDFs (CacheFirst, 90 days)
 - [x] Update tests for new Header behavior
+- [x] Add comprehensive tests for utility modules:
+  - [x] 11 tests for network.js (100% coverage)
+  - [x] 18 tests for storage.js (100% coverage)
+  - [x] 18 tests for cache.js (100% coverage)
 - [ ] Test complete offline functionality (airplane mode) - Manual testing needed
-- [ ] Add tests for storage utilities - Deferred to Phase 5
-- [ ] Add tests for network utilities - Deferred to Phase 5
-- [ ] Add tests for cache utilities - Deferred to Phase 5
 
-**Outcome:** ✅ Offline indicator visible in Header. Save button caches resources when app installed. External PDFs cached via service worker. All tests passing (187 tests).
+**Outcome:** ✅ Offline indicator visible in Header. Save button caches resources when app installed. External PDFs cached via service worker. All utility modules have 100% test coverage. All 234 tests passing (47 new tests added).
+
+**Coverage:** 97.65% statements, 96.12% branches, 100% functions
 
 **PR:** Ready for creation (merge into `phase2` branch)
 **Branch:** `feature/phase2.2-offline-caching`
-**Commits:** 2 commits (workplan update + implementation)
+**Commits:** 4 commits (workplan updates + implementation + tests)
 
 **Dependencies:** Phase 2.1 (Service Worker) ✅ Completed
 
