@@ -46,7 +46,7 @@ describe("shareHandler - Error Handling", () => {
   });
 
   describe("Feature Detection", () => {
-    it("prioritizes Share API when available (desktop with Share API)", async () => {
+    it("prioritizes Share API when available", async () => {
       await shareHandler({
         shareUrl: "https://example.com",
         shareTitle: "Test Title",
