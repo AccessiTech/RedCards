@@ -15,13 +15,12 @@ const ctaData = {
   description: regions.description,
   links: regions.networks.map((network, index) => {
     const isFirstInRegion = index === 0 || regions.networks[index - 1].region !== network.region;
-    const emailSuffix = network.email ? ` (${network.email})` : '';
+    const displayNamePart = network.displayName ? ` (${network.displayName})` : '';
+    const emailPart = network.email ? ` (${network.email})` : '';
     return {
       // Only add title for first network in a region
       ...(isFirstInRegion && { title: network.region }),
-      description: network.displayName 
-        ? `${network.displayName} (${network.coverage})${emailSuffix}`
-        : network.name + (network.coverage ? ` (${network.coverage})` : '') + emailSuffix,
+      description: network.name + displayNamePart + emailPart,
       descriptionLink: network.url,
       url: `tel:${network.phoneNumber}`,
       btnText: network.phoneNumber,
