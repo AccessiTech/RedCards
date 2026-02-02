@@ -1,8 +1,9 @@
 import { test, expect, describe, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import Header from "./Header";
 import { norCalResistNumber } from "../Rights/content";
 import * as utils from "../../utils";
+import * as cacheUtils from "../../utils/cache";
 
 describe("Header", () => {
   let scrollIntoViewMock;
@@ -118,7 +119,7 @@ describe("Header", () => {
   });
 
   describe("Save button", () => {
-    test("shows alert when app is already installed", () => {
+    test("shows already cached message when app installed and cache complete", async () => {
       matchMediaMock.mockReturnValue({
         matches: true,
         media: "(display-mode: standalone)",
@@ -126,12 +127,143 @@ describe("Header", () => {
         removeEventListener: vi.fn(),
       });
 
+      // Mock cache as complete
+      vi.spyOn(cacheUtils, 'isCached').mockReturnValue(true);
+
       const { container } = render(<Header />);
       const buttons = container.querySelectorAll('.share-bar button');
       const saveButton = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      
       fireEvent.click(saveButton);
 
-      expect(alertMock).toHaveBeenCalledWith("This app is already installed.");
+      expect(alertMock).toHaveBeenCalledWith("App is installed and offline resources are cached!");
+    });
+
+    test("shows offline warning when app is installed and offline", async () => {
+      matchMediaMock.mockReturnValue({
+        matches: true,
+        media: "(display-mode: standalone)",
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      // Mock online state and caches API not available in test environment
+      vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false);
+
+      const { container } = render(<Header />);
+      const buttons = container.querySelectorAll('.share-bar button');
+      const saveButton = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      
+      fireEvent.click(saveButton);
+
+      // Wait for async handling
+      await waitFor(() => {
+        expect(alertMock).toHaveBeenCalledWith("Please connect to the internet to download offline resources.");
+      });
+    });
+
+    test("shows loading spinner during caching", async () => {
+      matchMediaMock.mockReturnValue({
+        matches: true,
+        media: "(display-mode: standalone)",
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      // Mock online state
+      Object.defineProperty(navigator, 'onLine', {
+        writable: true,
+        value: true,
+      });
+
+      // Mock cacheResources to delay so we can see the spinner
+      let resolveCaching;
+      const cachingPromise = new Promise((resolve) => {
+        resolveCaching = resolve;
+      });
+      vi.spyOn(cacheUtils, 'cacheResources').mockReturnValue(cachingPromise);
+      vi.spyOn(cacheUtils, 'isCached').mockReturnValue(false);
+
+      const { container, rerender } = render(<Header />);
+      const buttons = container.querySelectorAll('.share-bar button');
+      const saveButton = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      
+      fireEvent.click(saveButton);
+
+      // Check for spinner during caching
+      await waitFor(() => {
+        const spinnerButton = Array.from(container.querySelectorAll('.share-bar button'))
+          .find(btn => btn.textContent.includes('Saving'));
+        expect(spinnerButton).toBeDefined();
+        expect(spinnerButton.querySelector('[role="status"]')).toBeDefined();
+      });
+
+      // Resolve the caching
+      resolveCaching({ success: true, cached: 10, failed: 0 });
+      await cachingPromise;
+      rerender(<Header />);
+    });
+
+    test("shows partial success alert when some resources fail to cache", async () => {
+      matchMediaMock.mockReturnValue({
+        matches: true,
+        media: "(display-mode: standalone)",
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      // Mock online state
+      Object.defineProperty(navigator, 'onLine', {
+        writable: true,
+        value: true,
+      });
+
+      // Mock cacheResources with partial failure
+      vi.spyOn(cacheUtils, 'cacheResources').mockResolvedValue({
+        success: false,
+        cached: 8,
+        failed: 2
+      });
+      vi.spyOn(cacheUtils, 'isCached').mockReturnValue(false);
+
+      const { container } = render(<Header />);
+      const buttons = container.querySelectorAll('.share-bar button');
+      const saveButton = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      
+      fireEvent.click(saveButton);
+
+      await waitFor(() => {
+        expect(alertMock).toHaveBeenCalledWith("Cached 8 resources. 2 failed to cache.");
+      });
+    });
+
+    test("shows error alert when caching completely fails", async () => {
+      matchMediaMock.mockReturnValue({
+        matches: true,
+        media: "(display-mode: standalone)",
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      // Mock online state
+      Object.defineProperty(navigator, 'onLine', {
+        writable: true,
+        value: true,
+      });
+
+      // Mock cacheResources to throw error
+      vi.spyOn(cacheUtils, 'cacheResources').mockRejectedValue(new Error("Network failed"));
+      vi.spyOn(cacheUtils, 'isCached').mockReturnValue(false);
+
+      const { container } = render(<Header />);
+      const buttons = container.querySelectorAll('.share-bar button');
+      const saveButton = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      
+      fireEvent.click(saveButton);
+
+      await waitFor(() => {
+        expect(alertMock).toHaveBeenCalledWith("Failed to cache resources: Network failed");
+      });
     });
 
     test("shows alert when beforeinstallprompt not available", () => {
@@ -238,6 +370,38 @@ describe("Header", () => {
       // Button should be visible again
       buttons = container.querySelectorAll('.share-bar button');
       const saveButtonAfter = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      expect(saveButtonAfter).toBeDefined();
+    });
+
+    test("handles install prompt without userChoice property", () => {
+      const mockPrompt = vi.fn();
+      const mockDeferredPrompt = {
+        prompt: mockPrompt,
+        // No userChoice property
+      };
+
+      const { rerender, container } = render(<Header />);
+      const event = new Event("beforeinstallprompt");
+      event.preventDefault = vi.fn();
+      Object.defineProperty(event, "prompt", {
+        value: mockPrompt,
+      });
+      // Don't set userChoice
+      window.dispatchEvent(event);
+
+      rerender(<Header />);
+
+      let buttons = container.querySelectorAll('.share-bar button');
+      const saveButton = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      fireEvent.click(saveButton);
+
+      expect(mockPrompt).toHaveBeenCalled();
+      
+      // Button should be hidden after click (then re-shown due to no userChoice)
+      rerender(<Header />);
+      buttons = container.querySelectorAll('.share-bar button');
+      const saveButtonAfter = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      // Without userChoice, button gets re-shown
       expect(saveButtonAfter).toBeDefined();
     });
   });

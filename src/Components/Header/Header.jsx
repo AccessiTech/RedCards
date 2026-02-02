@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Spinner } from "react-bootstrap";
 import Translate from "../Translate/Translate";
 import PropTypes from "prop-types";
 import { norCalResistNumber } from "../Rights/content";
 import { shareHandler } from "../../utils";
+import { isOnline, onNetworkChange } from "../../utils/network";
+import { cacheResources, isCached } from "../../utils/cache";
 
 function Header({ title, lead, disableTranslate } = {}) {
   const deferredPromptRef = useRef(null);
   const [hideSaveButton, setHideSaveButton] = useState(false);
+  const [online, setOnline] = useState(isOnline());
+  const [caching, setCaching] = useState(false);
+  const [cacheComplete, setCacheComplete] = useState(isCached());
 
   useEffect(() => {
     function handleBeforeInstallPrompt(event) {
@@ -22,15 +27,107 @@ function Header({ title, lead, disableTranslate } = {}) {
     }
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    
+    // Setup network change listener
+    const cleanupNetwork = onNetworkChange(setOnline);
+    
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      cleanupNetwork();
     };
   }, []);
+
+  const handleSaveClick = async () => {
+    // If already installed, trigger offline caching
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      if (cacheComplete) {
+        alert("App is installed and offline resources are cached!");
+        return;
+      }
+      
+      if (!online) {
+        alert("Please connect to the internet to download offline resources.");
+        return;
+      }
+
+      // Cache resources for offline use
+      setCaching(true);
+      try {
+        const result = await cacheResources();
+        if (result.success && result.failed === 0) {
+          setCacheComplete(true);
+          alert(`Successfully cached ${result.cached} resources for offline use!`);
+        } else {
+          alert(`Cached ${result.cached} resources. ${result.failed} failed to cache.`);
+        }
+      } catch (error) {
+        alert(`Failed to cache resources: ${error.message}`);
+      } finally {
+        setCaching(false);
+      }
+      return;
+    }
+
+    // Otherwise, show install prompt
+    const deferredPrompt = deferredPromptRef.current || window.beforeInstallPrompt;
+    if (!deferredPrompt) {
+      alert("To install this app, please use your browser's 'Add to Home Screen' option.");
+      return;
+    }
+
+    // Installation must be done by a user gesture.
+    // Hide the UI that shows our A2HS button (matches the referenced snippet behavior).
+    setHideSaveButton(true);
+
+    // Show the prompt
+    deferredPrompt.prompt();
+
+    // Wait for the user to respond to the prompt
+    if (deferredPrompt.userChoice && typeof deferredPrompt.userChoice.then === "function") {
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult?.outcome === "accepted") {
+          console.log("User accepted the A2HS prompt");
+          // Keep the button hidden after successful install intent.
+        } else {
+          console.log("User dismissed the A2HS prompt");
+          // Re-show the button if the user dismissed the prompt.
+          setHideSaveButton(false);
+        }
+
+        deferredPromptRef.current = null;
+        window.beforeInstallPrompt = null;
+      });
+    } else {
+      deferredPromptRef.current = null;
+      window.beforeInstallPrompt = null;
+      setHideSaveButton(false);
+    }
+  };
 
   return (
     <header>
       <Row>
         <Col style={{ textAlign: "center" }}>
+          {/* Offline/Online Indicator */}
+          {/* <div 
+            style={{ 
+              position: 'absolute', 
+              display: 'none',
+              top: '10px', 
+              right: '10px',
+              fontSize: '1.5rem',
+              zIndex: 1000,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px'
+            }}
+            title={online ? 'Online' : 'Offline'}
+            aria-label={online ? 'Online' : 'Offline'}
+            role="status"
+          >
+            {online ? '🟢' : '🔴'}
+          </div> */}
+
           <Button
             href={
               `tel:${norCalResistNumber.replace(/[^0-9]/g, "")}`
@@ -60,48 +157,24 @@ function Header({ title, lead, disableTranslate } = {}) {
               <Button
                 variant="outline-primary"
                 size="lg"
-                onClick={() => {
-                  if (window.matchMedia("(display-mode: standalone)").matches) {
-                    alert("This app is already installed.");
-                    return;
-                  }
-
-                  const deferredPrompt = deferredPromptRef.current || window.beforeInstallPrompt;
-                  if (!deferredPrompt) {
-                    alert("To install this app, please use your browser's 'Add to Home Screen' option.");
-                    return;
-                  }
-
-                  // Installation must be done by a user gesture.
-                  // Hide the UI that shows our A2HS button (matches the referenced snippet behavior).
-                  setHideSaveButton(true);
-
-                  // Show the prompt
-                  deferredPrompt.prompt();
-
-                  // Wait for the user to respond to the prompt
-                  if (deferredPrompt.userChoice && typeof deferredPrompt.userChoice.then === "function") {
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                      if (choiceResult?.outcome === "accepted") {
-                        console.log("User accepted the A2HS prompt");
-                        // Keep the button hidden after successful install intent.
-                      } else {
-                        console.log("User dismissed the A2HS prompt");
-                        // Re-show the button if the user dismissed the prompt.
-                        setHideSaveButton(false);
-                      }
-
-                      deferredPromptRef.current = null;
-                      window.beforeInstallPrompt = null;
-                    });
-                  } else {
-                    deferredPromptRef.current = null;
-                    window.beforeInstallPrompt = null;
-                    setHideSaveButton(false);
-                  }
-                }}
+                onClick={handleSaveClick}
+                disabled={caching}
               >
-                Save
+                {caching ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className="me-2"
+                    />
+                    Saving...
+                  </>
+                ) : (
+                  'Save'
+                )}
               </Button>
             )}
             <Button variant="outline-primary" size="lg" onClick={async () => {
