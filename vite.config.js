@@ -94,6 +94,21 @@ export default defineConfig(() => {
                   statuses: [0, 200]
                 }
               }
+            },
+            {
+              // Cache external PDF resources from ilrc.org
+              urlPattern: /^https:\/\/www\.ilrc\.org\/.*\.pdf$/i,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "external-pdfs-cache",
+                expiration: {
+                  maxEntries: 50,
+                  maxAgeSeconds: 60 * 60 * 24 * 90 // 90 days
+                },
+                cacheableResponse: {
+                  statuses: [0, 200]
+                }
+              }
             }
           ]
         },
