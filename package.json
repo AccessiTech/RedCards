@@ -10,7 +10,7 @@
     "start": "vite",
     "build": "vite build",
     "test": "vitest --root src/",
-    "test:coverage": "vitest --root src/ --coverage",
+    "test:coverage": "vitest --root src/ --coverage --run",
     "deploy": "VITE_APP_ENV=production vite build --outDir docs && cp docs/index.html docs/404.html",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
