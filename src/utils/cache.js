@@ -4,7 +4,7 @@
  */
 
 import { redCardsPrintLinks } from '../Components/Resources/content';
-import { setItem, getItem } from './storage';
+import { setItem, getItem, removeItem } from './storage';
 
 const CACHE_NAME = 'redcards-resources-v1';
 const CACHE_STATUS_KEY = 'offline_cache_status';
@@ -59,7 +59,9 @@ export async function cacheResources(onProgress = null) {
       
       try {
         // Fetch and cache the resource
-        const response = await fetch(url, { mode: 'cors' });
+        // Use 'cors' mode for external URLs, 'same-origin' for local assets
+        const isExternal = url.startsWith('http://') || url.startsWith('https://');
+        const response = await fetch(url, { mode: isExternal ? 'cors' : 'same-origin' });
         
         if (response.ok) {
           await cache.put(url, response);
@@ -145,8 +147,8 @@ export async function clearCache() {
     if ('caches' in window) {
       await caches.delete(CACHE_NAME);
     }
-    setItem(CACHE_STATUS_KEY, null);
-    setItem(CACHE_TIMESTAMP_KEY, null);
+    removeItem(CACHE_STATUS_KEY);
+    removeItem(CACHE_TIMESTAMP_KEY);
     return true;
   } catch (error) {
     console.error('Failed to clear cache:', error);
