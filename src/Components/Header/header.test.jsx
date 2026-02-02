@@ -1,5 +1,5 @@
 import { test, expect, describe, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import Header from "./Header";
 import { norCalResistNumber } from "../Rights/content";
 import * as utils from "../../utils";
@@ -118,7 +118,7 @@ describe("Header", () => {
   });
 
   describe("Save button", () => {
-    test("shows alert when app is already installed", () => {
+    test("shows caching prompt when app is already installed and cache not complete", async () => {
       matchMediaMock.mockReturnValue({
         matches: true,
         media: "(display-mode: standalone)",
@@ -126,12 +126,19 @@ describe("Header", () => {
         removeEventListener: vi.fn(),
       });
 
+      // Mock online state and caches API not available in test environment
+      vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false);
+
       const { container } = render(<Header />);
       const buttons = container.querySelectorAll('.share-bar button');
       const saveButton = Array.from(buttons).find(btn => btn.textContent === 'Save');
+      
       fireEvent.click(saveButton);
 
-      expect(alertMock).toHaveBeenCalledWith("This app is already installed.");
+      // Wait for async handling
+      await waitFor(() => {
+        expect(alertMock).toHaveBeenCalledWith("Please connect to the internet to download offline resources.");
+      });
     });
 
     test("shows alert when beforeinstallprompt not available", () => {
