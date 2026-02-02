@@ -60,40 +60,40 @@ describe('PWA Configuration', () => {
 
   describe('Service Worker Registration', () => {
     it('should include custom update prompt implementation', () => {
-      const indexJsx = readFileSync(join(process.cwd(), 'src/index.jsx'), 'utf-8');
+      const rootJsx = readFileSync(join(process.cwd(), 'src/Root/Root.jsx'), 'utf-8');
       
       // Should use UpdatePrompt React component instead of browser confirm()
-      expect(indexJsx).toContain('UpdatePrompt');
-      expect(indexJsx).not.toContain('confirm(');
+      expect(rootJsx).toContain('UpdatePrompt');
+      expect(rootJsx).not.toContain('confirm(');
       
       // Should import the UpdatePrompt component
-      expect(indexJsx).toContain('from \'./Components/UpdatePrompt/UpdatePrompt.jsx\'');
+      expect(rootJsx).toContain('from \'../Components/UpdatePrompt/UpdatePrompt.jsx\'');
     });
 
     it('should guard console.log for production', () => {
-      const indexJsx = readFileSync(join(process.cwd(), 'src/index.jsx'), 'utf-8');
+      const rootJsx = readFileSync(join(process.cwd(), 'src/Root/Root.jsx'), 'utf-8');
       
       // Console.log should be guarded by NODE_ENV check
-      expect(indexJsx).toContain('process.env.NODE_ENV');
-      expect(indexJsx).toContain('development');
-      expect(indexJsx).toContain('console.log');
+      expect(rootJsx).toContain('process.env.NODE_ENV');
+      expect(rootJsx).toContain('development');
+      expect(rootJsx).toContain('console.log');
     });
 
     it('should use React component for update UI', () => {
-      const indexJsx = readFileSync(join(process.cwd(), 'src/index.jsx'), 'utf-8');
+      const rootJsx = readFileSync(join(process.cwd(), 'src/Root/Root.jsx'), 'utf-8');
       
       // Should manage update prompt state with React hooks
-      expect(indexJsx).toContain('useState');
-      expect(indexJsx).toContain('showUpdatePrompt');
-      expect(indexJsx).toContain('setShowUpdatePrompt');
+      expect(rootJsx).toContain('useState');
+      expect(rootJsx).toContain('showUpdatePrompt');
+      expect(rootJsx).toContain('setShowUpdatePrompt');
     });
 
     it('should manage update prompt state properly', () => {
-      const indexJsx = readFileSync(join(process.cwd(), 'src/index.jsx'), 'utf-8');
+      const rootJsx = readFileSync(join(process.cwd(), 'src/Root/Root.jsx'), 'utf-8');
       
       // Should have handlers for update and dismiss
-      expect(indexJsx).toContain('handleUpdate');
-      expect(indexJsx).toContain('handleDismiss');
+      expect(rootJsx).toContain('handleUpdate');
+      expect(rootJsx).toContain('handleDismiss');
     });
   });
 
