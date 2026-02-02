@@ -16,7 +16,12 @@ export default defineConfig(() => {
         // "**/*.test.tsx",
       ],
       coverage: {
-        exclude: [ "**/index.jsx", "**/Root/Root.jsx", ...coverageConfigDefaults.exclude ],
+        exclude: [ 
+          "**/index.jsx", 
+          "**/Root/Root.jsx", 
+          "**/__mocks__/**",
+          ...coverageConfigDefaults.exclude 
+        ],
         thresholds: {
           lines: 85,
           functions: 85,
