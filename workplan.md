@@ -719,7 +719,7 @@ git config --global user.signingkey <your-gpg-key-id>
   - [x] 11 tests for network.js (100% coverage)
   - [x] 18 tests for storage.js (100% coverage)
   - [x] 18 tests for cache.js (100% coverage)
-- [x] Test complete offline functionality (airplane mode) - Manual testing needed
+- [x] Test complete offline functionality (airplane mode) - Manual testing completed
 
 **Outcome:** ✅ Offline indicator visible in Header. Save button caches resources when app installed. External PDFs cached via service worker. All utility modules have 100% test coverage. All 234 tests passing (47 new tests added).
 
