@@ -704,7 +704,7 @@ git config --global user.signingkey <your-gpg-key-id>
 **Tasks:**
 - [x] Create localStorage utility wrapper (`src/utils/storage.js`)
 - [x] Add service worker runtime caching for external PDFs:
-  - All Red Card PDFs (15 languages from ilrc.org)
+  - All Red Card PDFs (16 languages from ilrc.org)
   - Flyer PDFs from `/assets/`
   - QR code SVGs from `/assets/`
 - [x] Cache external resource URLs in workbox config
