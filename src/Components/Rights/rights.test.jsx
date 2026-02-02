@@ -1,9 +1,32 @@
 import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { describe, expect, it, afterEach } from 'vitest';
 import Rights from './Rights';
-import { ctaData, ctaTitle, ctaUrl, leftHeader, rightHeader, ctaSource } from './content';
+import { leftHeader, rightHeader } from './content';
+import { regions } from '../../config';
 import { BrowserRouter, Routes, Route, MemoryRouter, useNavigate } from 'react-router';
 import { useEffect } from 'react';
+
+// Import config data for tests
+const ctaData = {
+  url: regions.url,
+  title: regions.title,
+  description: regions.description,
+  links: regions.networks.map((network, index) => {
+    const isFirstInRegion = index === 0 || regions.networks[index - 1].region !== network.region;
+    return {
+      ...(isFirstInRegion && { title: network.region }),
+      description: network.displayName 
+        ? `${network.name} (${network.coverage})`
+        : network.name + (network.coverage ? ` (${network.coverage})` : ''),
+      descriptionLink: network.url,
+      url: `tel:${network.phoneNumber}`,
+      btnText: network.phoneNumber,
+    };
+  })
+};
+const ctaTitle = regions.title;
+const ctaUrl = regions.url;
+const ctaSource = regions.source;
 
 describe('Rights Component', () => {
   afterEach(() => {

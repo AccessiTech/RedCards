@@ -1,9 +1,11 @@
 import { test, expect, describe, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import Header from "./Header";
-import { norCalResistNumber } from "../Rights/content";
+import { getSacramentoPhoneNumber } from "../../config";
 import * as utils from "../../utils";
 import * as cacheUtils from "../../utils/cache";
+
+const norCalResistNumber = getSacramentoPhoneNumber();
 
 describe("Header", () => {
   let scrollIntoViewMock;
