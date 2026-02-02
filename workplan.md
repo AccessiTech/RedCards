@@ -666,6 +666,7 @@ git config --global user.signingkey <your-gpg-key-id>
 
 ### 2.1 Install and Configure Vite PWA Plugin ✅ COMPLETED
 **Files:** `vite.config.js`, `package.json`, `public/offline.html`, `src/index.jsx`
+**Status:** ✅ **Completed February 2, 2026**
 
 **Tasks:**
 - [x] Install `vite-plugin-pwa`, `workbox-build`, and `workbox-window` packages
@@ -679,50 +680,78 @@ git config --global user.signingkey <your-gpg-key-id>
 - [x] Test service worker registration and updates
 - [x] Add PWA tests (10 tests covering cache strategies, offline support)
 - [x] Register service worker in index.jsx with update handlers
+- [x] Add UpdatePrompt component with Toast UI for service worker updates
 
-**Outcome:** ✅ All static assets cached on first visit. Service worker enabled in dev and production. Update prompt ready for Phase 2.3.
+**Outcome:** ✅ All static assets cached on first visit. Service worker enabled in dev and production. Update prompt component ready.
 
-**PR:** Ready for creation (branch: `feature/phase2.1-vite-pwa-plugin`)
+**PR:** #32 (merged to main)
+**Branch:** `feature/phase2.1-vite-pwa-plugin`
 **Tests:** 164 passing (10 new PWA tests added)
-**Commit:** 4d360fe
 
 **Dependencies:** None
 
 ---
 
 ### 2.2 Implement Offline Resource Caching
-**Files:** `src/utils/storage.js`, service worker config
+**Files:** `src/utils/storage.js`, `src/Components/Header/Header.jsx`, `vite.config.js`
+**Status:** 🚧 **In Progress - February 2, 2026**
+
+**Scope Clarifications:**
+- Cache as many external resources as possible (best practice)
+- "Save" button in Header triggers offline caching
+- Add universal offline indicator icon/emoji in Header
 
 **Tasks:**
-- [ ] Create localStorage utility wrapper for simple persistence
-- [ ] Cache phone numbers and resource URLs on first load
-- [ ] Add service worker cache for external PDFs/resources
+- [ ] Create localStorage utility wrapper (`src/utils/storage.js`)
+- [ ] Add service worker runtime caching for external PDFs:
+  - All Red Card PDFs (15 languages from ilrc.org)
+  - Flyer PDFs from `/assets/`
+  - QR code SVGs from `/assets/`
+- [ ] Cache external resource URLs in workbox config
+- [ ] Add online/offline detection utility (`src/utils/network.js`)
+- [ ] Add offline indicator to Header (icon/emoji, universally understood)
+- [ ] Update "Save" button to trigger full offline caching
+- [ ] Add visual feedback when caching completes
 - [ ] Implement cache versioning strategy
-- [ ] Add "Download for Offline" button to trigger full cache
-- [ ] Show offline indicator in UI when network unavailable
-- [ ] Test complete offline functionality (airplane mode)
-- [ ] Verify phone `tel:` links work offline
+- [ ] Test complete offline functionality (airplane mode):
+  - All Red Card PDFs load offline
+  - Phone `tel:` links work offline
+  - Resource links accessible offline
+  - External digital resources show appropriate message
+- [ ] Add tests for storage utilities
+- [ ] Add tests for offline indicator
 
-**Outcome:** App fully functional without internet after first load
+**Outcome:** App fully functional without internet after first cache. Visual offline indicator. External resources cached.
 
-**Dependencies:** Phase 2.1 (Service Worker)
+**Dependencies:** Phase 2.1 (Service Worker) ✅ Completed
 
 ---
 
-### 2.3 Implement Update Strategy
-**Files:** `src/Components/UpdatePrompt/`, service worker
+### 2.3 Implement Update Strategy ✅ COMPLETED
+**Files:** `src/Components/UpdatePrompt/UpdatePrompt.jsx`, service worker
+**Status:** ✅ **Completed with Phase 2.1 - February 2, 2026**
 
 **Tasks:**
-- [ ] Create `UpdatePrompt.jsx` component for "New version available"
-- [ ] Implement service worker skip-waiting on user acceptance
-- [ ] Add force-update option for emergency changes
-- [ ] Show changelog/update notes (from GitHub releases?)
-- [ ] Test update flow: new version detection → prompt → reload → verify
-- [ ] Add analytics for update acceptance rate
+- [x] Create `UpdatePrompt.jsx` component for "New version available"
+- [x] Implement service worker skip-waiting on user acceptance
+- [x] Convert to React Bootstrap Toast component
+- [x] Add user-friendly UI with "Update Now" and "Later" options
+- [x] Test update flow: new version detection → prompt → reload → verify
+- [x] Add comprehensive tests for UpdatePrompt component
 
-**Outcome:** Users notified of updates; can refresh to get latest
+**Completed as part of Phase 2.1 implementation:**
+- UpdatePrompt component integrated with service worker
+- Toast UI provides clean, non-intrusive update notifications
+- User can accept or dismiss update prompt
+- Tests validate all update scenarios
 
-**Dependencies:** Phase 2.1 (Service Worker)
+**Deferred:**
+- [ ] Show changelog/update notes (from GitHub releases?) - Phase 5
+- [ ] Add analytics for update acceptance rate - Phase 5
+
+**Outcome:** ✅ Users notified of updates; can refresh to get latest version
+
+**Dependencies:** Phase 2.1 (Service Worker) ✅ Completed
 
 ---
 
