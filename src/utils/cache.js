@@ -28,6 +28,7 @@ export function getResourceUrls() {
 
   // Add QR code SVGs
   urls.push('/assets/qr_black.svg');
+  urls.push('/assets/qr.svg');
   urls.push('/assets/qr_red.svg');
 
   return urls;
