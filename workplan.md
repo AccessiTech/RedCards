@@ -941,22 +941,84 @@ src/config/
 
 ### 4.1 Accessibility Audit & Fixes
 **Files:** All components, add `src/utils/a11y.js`
+**Status:** 🔄 **In Progress - February 2, 2026**
+
+**Approach & Strategy:**
+
+**Split into 2 PRs for manageable scope:**
+- **PR1** (`feature/phase4.1-pr1-aria-keyboard`): ARIA labels, keyboard nav, skip link, emoji fixes
+- **PR2** (`feature/phase4.1-pr2-focus-testing`): Focus management, modal traps, comprehensive testing
+
+**Key Decisions:**
+1. **Skip-to-content link**: Add `<main>` landmark wrapping Rights section, skip link targets that
+2. **Button ARIA labels**: Descriptive labels (e.g., "Scan QR code below", "Save app for offline use")
+3. **Decorative emojis**: Keep with `aria-hidden="true"` to hide from screen readers
+4. **Focus trap**: Use React Bootstrap Modal's built-in focus management (already present)
+5. **Testing**: Document manual axe DevTools workflow first, add automated tests in PR2
+6. **Focus indicators**: Add `:focus-visible` styles for keyboard navigation (no mouse focus rings)
 
 **Tasks:**
-- [ ] Add skip-to-content link at top of page
-- [ ] Add ARIA labels to icon-only buttons (Share, Scan, Save)
-- [ ] Add ARIA labels to language tabs in Rights component
-- [ ] Implement focus management for ResourceModal
-- [ ] Add focus trap for modal dialogs
-- [ ] Add keyboard navigation for all interactive elements
-- [ ] Remove decorative emojis from screen reader text (phone buttons)
-- [ ] Test with VoiceOver (macOS), NVDA (Windows), TalkBack (Android)
-- [ ] Run axe DevTools audit and fix all issues
-- [ ] Add focus visible styles (keyboard navigation indicators)
 
-**Outcome:** App fully navigable by keyboard and screen readers
+**PR1: ARIA & Keyboard Navigation** (`feature/phase4.1-pr1-aria-keyboard`)
+- [ ] Add skip-to-content link at top of page
+  - [ ] Create skip link component with keyboard-only visibility
+  - [ ] Add `<main>` landmark wrapping main content (Rights section)
+  - [ ] Position absolutely, visible only on keyboard focus
+- [ ] Add ARIA labels to icon-only buttons in Header
+  - [ ] Scan button: `aria-label="Scan QR code below"`
+  - [ ] Save button: `aria-label="Save app for offline use"` (context-aware for install/cache)
+  - [ ] Share button: `aria-label="Share this page"`
+- [ ] Add ARIA labels to language tabs in Rights component
+  - [ ] "Translated" tab: `aria-label="Show translated Red Card"`
+  - [ ] "English" tab: `aria-label="Show English Red Card"`
+- [ ] Remove decorative emojis from screen reader text
+  - [ ] ICE activity button: Add `aria-hidden="true"` to phone emojis
+  - [ ] Maintain visual phone icons but hide from assistive tech
+- [ ] Add focus-visible styles for keyboard navigation
+  - [ ] Add `:focus-visible` CSS to buttons, links, tabs
+  - [ ] Use theme primary color for focus outline
+  - [ ] Ensure 3:1 contrast ratio for focus indicators
+- [ ] Verify keyboard navigation works for all interactive elements
+  - [ ] Test Tab, Shift+Tab navigation flow
+  - [ ] Test Enter/Space activation on all buttons
+  - [ ] Verify modal can be dismissed with Escape key
+- [ ] Add tests for ARIA labels and skip link
+  - [ ] Test skip link renders and has correct href
+  - [ ] Test ARIA labels present on all icon-only buttons
+  - [ ] Test decorative emojis have aria-hidden
+
+**PR2: Focus Management & Testing** (`feature/phase4.1-pr2-focus-testing`)
+- [ ] Implement focus management for ResourceModal
+  - [ ] Verify focus moves to modal on open (React Bootstrap default)
+  - [ ] Ensure focus returns to trigger button on close
+  - [ ] Test focus trap keeps focus within modal when open
+- [ ] Verify modal focus trap with keyboard testing
+  - [ ] Tab cycles through modal elements only
+  - [ ] Shift+Tab works in reverse
+  - [ ] Focus does not escape modal to background content
+- [ ] Create accessibility testing documentation
+  - [ ] Document axe DevTools installation and usage
+  - [ ] Create checklist for manual accessibility testing
+  - [ ] Document VoiceOver testing process (macOS)
+  - [ ] Add testing guidelines to CONTRIBUTING.md
+- [ ] Run comprehensive accessibility testing
+  - [ ] Test with VoiceOver (macOS) - all features announced correctly
+  - [ ] Install and run axe DevTools audit
+  - [ ] Fix any critical/serious issues found by axe
+  - [ ] Verify keyboard navigation (no mouse/trackpad)
+- [ ] Add automated accessibility tests
+  - [ ] Consider adding jest-axe or vitest-axe for automated testing
+  - [ ] Test ARIA attributes in component tests
+  - [ ] Test keyboard event handlers
+
+**Outcome:** App fully navigable by keyboard and screen readers, WCAG 2.1 AA compliant
 
 **Dependencies:** None
+
+**Estimated Time:** 
+- PR1: 2-3 hours
+- PR2: 2-3 hours
+- Total: 4-6 hours
 
 ---
 
