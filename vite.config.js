@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { VitePWA } from "vite-plugin-pwa";
+import { theme, app, pwa } from './src/config/constants.js';
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
@@ -12,14 +13,14 @@ export default defineConfig(() => {
         registerType: "prompt",
         includeAssets: ["assets/*.png", "assets/*.jpg", "assets/*.svg", "assets/*.pdf"],
         manifest: {
-          name: "Red Cards",
-          short_name: "redcards",
-          description: "This is a digital version of the 'Red Cards' created by the Immigration Legal Resource Center.",
-          theme_color: "#B11111",
-          background_color: "#FFFFFF",
-          display: "fullscreen",
-          start_url: "/",
-          lang: "en",
+          name: app.name,
+          short_name: app.shortName,
+          description: app.description,
+          theme_color: theme.colors.secondary,
+          background_color: theme.colors.primary,
+          display: pwa.display,
+          start_url: pwa.startUrl,
+          lang: app.lang,
           icons: [
             {
               src: "assets/android-chrome-192x192.png",
