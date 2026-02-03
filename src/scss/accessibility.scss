@@ -1,0 +1,67 @@
+// Accessibility styles for keyboard navigation
+// Focus-visible styles provide visual feedback for keyboard users without
+// adding distracting focus rings for mouse users
+
+// Modern focus-visible support with fallback
+// Only show focus styles when navigating with keyboard (not mouse clicks)
+:focus-visible {
+  outline: 3px solid var(--bs-primary);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+// Remove default focus outline for mouse users
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// High contrast focus for buttons
+button:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--bs-primary);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+// Focus styles for links
+a:focus-visible {
+  outline: 3px solid var(--bs-primary);
+  outline-offset: 2px;
+  text-decoration: underline;
+}
+
+// Focus styles for navigation tabs
+.nav-link:focus-visible {
+  outline: 3px solid var(--bs-primary);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+// Focus styles for form inputs (if added in future)
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--bs-primary);
+  outline-offset: 1px;
+  border-color: var(--bs-primary);
+}
+
+// Focus styles for modal dialogs
+.modal:focus-visible {
+  outline: none; // Modal itself doesn't need focus outline
+}
+
+// Ensure focus indicators work in both light and dark themes
+@media (prefers-color-scheme: dark) {
+  :focus-visible {
+    outline-color: var(--bs-light);
+  }
+}
+
+// Ensure sufficient color contrast for WCAG compliance
+// Primary color should have at least 3:1 contrast with background
+@supports (outline: 3px solid currentColor) {
+  :focus-visible {
+    outline: 3px solid var(--bs-primary);
+  }
+}

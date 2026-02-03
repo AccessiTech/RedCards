@@ -62,10 +62,20 @@ function Rights(props) {
               <Col style={{ width: "100%" }}>
                 <Nav variant="pills" className="justify-content-end">
                   <Nav.Item>
-                    <Nav.Link eventKey="translated">Translated</Nav.Link>
+                    <Nav.Link 
+                      eventKey="translated"
+                      aria-label="Show translated Red Card"
+                    >
+                      Translated
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="english">English</Nav.Link>
+                    <Nav.Link 
+                      eventKey="english"
+                      aria-label="Show English Red Card"
+                    >
+                      English
+                    </Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Col>

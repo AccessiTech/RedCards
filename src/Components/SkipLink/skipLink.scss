@@ -1,0 +1,33 @@
+// Skip-to-content link for accessibility
+// Only visible when focused via keyboard navigation
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--bs-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  font-weight: bold;
+  z-index: 10000;
+  border-radius: 0 0 0.25rem 0;
+  transition: top 0.2s ease;
+
+  // Only visible when focused
+  &:focus {
+    top: 0;
+  }
+
+  // Ensure high contrast for visibility
+  &:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 2px;
+  }
+
+  // Hover state (though primarily for keyboard users)
+  &:hover {
+    background: var(--bs-primary);
+    color: white;
+    text-decoration: underline;
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router";
 import UpdatePrompt from '../Components/UpdatePrompt/UpdatePrompt.jsx';
+import SkipLink from '../Components/SkipLink/SkipLink.jsx';
 import App from '../App/App.jsx';
 import { registerSW } from 'virtual:pwa-register';
 
@@ -38,6 +39,7 @@ export function Root() {
 
   return (
     <>
+      <SkipLink href="#content" />
       <UpdatePrompt 
         show={showUpdatePrompt} 
         onUpdate={handleUpdate} 
