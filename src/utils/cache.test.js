@@ -2,13 +2,13 @@ import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
 import { getResourceUrls, cacheResources, getCacheStatus, isCached, clearCache } from './cache';
 import * as storage from './storage';
 
-// Mock the content module
-vi.mock('../Components/Resources/content', () => ({
-  redCardsPrintLinks: {
+// Mock the config module
+vi.mock('../config', () => ({
+  getRedCardsPrintLinks: () => ({
     english: 'https://example.com/english.pdf',
     spanish: 'https://example.com/spanish.pdf',
     chinese: 'https://example.com/chinese.pdf'
-  }
+  })
 }));
 
 describe('cache utilities', () => {

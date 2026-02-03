@@ -4,6 +4,7 @@
  */
 
 import regionsConfig from './regions.json';
+import resourcesConfig from './resources.json';
 import { validateRegionsConfig, handleValidationErrors } from './validators';
 
 // Validate regions config on import (dev warnings, prod errors)
@@ -15,6 +16,12 @@ handleValidationErrors('Regions Config', regionsValidation);
  * Contains all California rapid response network contact information
  */
 export const regions = regionsConfig;
+
+/**
+ * Resources configuration
+ * Contains digital and printable resource links
+ */
+export const resources = resourcesConfig;
 
 /**
  * Helper function to get a specific network by ID
@@ -49,4 +56,65 @@ export function getAllRegions() {
 export function getSacramentoPhoneNumber() {
   const sacramento = getNetworkById('sacramento');
   return sacramento?.phoneNumber || '';
+}
+
+/**
+ * Helper function to get digital resources in legacy format
+ * Transforms config format to match original content.js structure
+ * @returns {object} Digital resources object
+ */
+export function getDigitalResources() {
+  return {
+    "informedimmigrant.com": {
+      title: resourcesConfig.digital["informedimmigrant.com"].title,
+      description: resourcesConfig.digital["informedimmigrant.com"].description,
+      source: resourcesConfig.digital["informedimmigrant.com"].url,
+    },
+    "caimmigrant.org": {
+      title: resourcesConfig.digital["caimmigrant.org"].title,
+      source: resourcesConfig.digital["caimmigrant.org"].url,
+      links: resourcesConfig.digital["caimmigrant.org"].links,
+    },
+  };
+}
+
+/**
+ * Helper function to get red cards print links in legacy format
+ * @returns {object} Object mapping language to PDF URL
+ */
+export function getRedCardsPrintLinks() {
+  return resourcesConfig.printable.redCards.languages;
+}
+
+/**
+ * Helper function to get printable resources in legacy format
+ * Transforms config format to match original content.js structure
+ * @returns {object} Printable resources object
+ */
+export function getPrintableResources() {
+  const { redCards, flyers, qrCode } = resourcesConfig.printable;
+  
+  return {
+    "Red Cards (Original)": {
+      title: redCards.title,
+      description: redCards.description,
+      source: redCards.url,
+      links: Object.keys(redCards.languages).map((language) => ({
+        title: language,
+        url: redCards.languages[language],
+      })),
+    },
+    "Printable Flyers": {
+      title: flyers.title,
+      description: flyers.description,
+      source: flyers.url,
+      links: flyers.links,
+    },
+    "Printable QR Code": {
+      title: qrCode.title,
+      description: qrCode.description,
+      source: qrCode.url,
+      links: qrCode.links,
+    },
+  };
 }
