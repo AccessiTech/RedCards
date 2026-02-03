@@ -959,33 +959,39 @@ src/config/
 
 **Tasks:**
 
-**PR1: ARIA & Keyboard Navigation** (`feature/phase4.1-pr1-aria-keyboard`)
-- [ ] Add skip-to-content link at top of page
-  - [ ] Create skip link component with keyboard-only visibility
-  - [ ] Add `<main>` landmark wrapping main content (Rights section)
-  - [ ] Position absolutely, visible only on keyboard focus
-- [ ] Add ARIA labels to icon-only buttons in Header
-  - [ ] Scan button: `aria-label="Scan QR code below"`
-  - [ ] Save button: `aria-label="Save app for offline use"` (context-aware for install/cache)
-  - [ ] Share button: `aria-label="Share this page"`
-- [ ] Add ARIA labels to language tabs in Rights component
-  - [ ] "Translated" tab: `aria-label="Show translated Red Card"`
-  - [ ] "English" tab: `aria-label="Show English Red Card"`
-- [ ] Remove decorative emojis from screen reader text
-  - [ ] ICE activity button: Add `aria-hidden="true"` to phone emojis
-  - [ ] Maintain visual phone icons but hide from assistive tech
-- [ ] Add focus-visible styles for keyboard navigation
-  - [ ] Add `:focus-visible` CSS to buttons, links, tabs
-  - [ ] Use theme primary color for focus outline
-  - [ ] Ensure 3:1 contrast ratio for focus indicators
-- [ ] Verify keyboard navigation works for all interactive elements
-  - [ ] Test Tab, Shift+Tab navigation flow
-  - [ ] Test Enter/Space activation on all buttons
-  - [ ] Verify modal can be dismissed with Escape key
-- [ ] Add tests for ARIA labels and skip link
-  - [ ] Test skip link renders and has correct href
-  - [ ] Test ARIA labels present on all icon-only buttons
-  - [ ] Test decorative emojis have aria-hidden
+**PR1: ARIA & Keyboard Navigation** (`feature/phase4.1-pr1-aria-keyboard`) ✅ **COMPLETED - February 2, 2026**
+- [x] Add skip-to-content link at top of page
+  - [x] Create skip link component with keyboard-only visibility
+  - [x] Add `<main>` landmark wrapping main content (Rights section)
+  - [x] Position absolutely, visible only on keyboard focus
+- [x] Add ARIA labels to icon-only buttons in Header
+  - [x] Scan button: `aria-label="Scan QR code below"`
+  - [x] Save button: `aria-label="Save app for offline use"` (context-aware for install/cache)
+  - [x] Share button: `aria-label="Share this page"`
+- [x] Add ARIA labels to language tabs in Rights component
+  - [x] "Translated" tab: `aria-label="Show translated Red Card"`
+  - [x] "English" tab: `aria-label="Show English Red Card"`
+- [x] Remove decorative emojis from screen reader text
+  - [x] ICE activity button: Add `aria-hidden="true"` to phone emojis
+  - [x] Maintain visual phone icons but hide from assistive tech
+- [x] Add focus-visible styles for keyboard navigation
+  - [x] Add `:focus-visible` CSS to buttons, links, tabs
+  - [x] Use theme primary color for focus outline
+  - [x] Ensure 3:1 contrast ratio for focus indicators
+- [x] Verify keyboard navigation works for all interactive elements
+  - [x] Test Tab, Shift+Tab navigation flow
+  - [x] Test Enter/Space activation on all buttons
+  - [x] Verify modal can be dismissed with Escape key
+- [x] Add tests for ARIA labels and skip link
+  - [x] Test skip link renders and has correct href
+  - [x] Test ARIA labels present on all icon-only buttons
+  - [x] Test decorative emojis have aria-hidden
+
+**Outcome:** ✅ Skip link, ARIA labels, focus styles implemented. All 320 tests passing.
+**PR:** Ready for creation (merge into `staging/phase4` branch)
+**Branch:** `feature/phase4.1-pr1-aria-keyboard`
+**Commits:** 2 commits (workplan + implementation)
+**Tests:** 320 passing (13 new accessibility tests added)
 
 **PR2: Focus Management & Testing** (`feature/phase4.1-pr2-focus-testing`)
 - [ ] Implement focus management for ResourceModal
