@@ -73,7 +73,7 @@ Runtime validation for configuration data:
 - **Routing**: React Router v7
 - **PWA**: vite-plugin-pwa + Workbox
 - **Testing**: Vitest + Testing Library
-- **State Management**: URL params + localStorage (Redux removed)
+- **State Management**: URL params + localStorage (Redux code removed; Redux dependencies present but unused and slated for cleanup)
 
 ### Key Features
 
