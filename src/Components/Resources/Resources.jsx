@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import ResourceBtn from "./ResourceBtn";
 import { titleCase } from "../../utils";
-import {
-  digitalResources,
-  printableResources,
-} from "./content";
+import { getDigitalResources, getPrintableResources } from "../../config";
 import PropTypes from "prop-types";
 import ResourceModal from "./ResourceModal";
 import { useParams } from "react-router";
+
+// Get resources from config
+const digitalResources = getDigitalResources();
+const printableResources = getPrintableResources();
 
 
 function Resources({ hideDigitals, hidePrintables }) {

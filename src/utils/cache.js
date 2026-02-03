@@ -3,7 +3,7 @@
  * Works with service worker to cache external resources.
  */
 
-import { redCardsPrintLinks } from '../Components/Resources/content';
+import { getRedCardsPrintLinks } from '../config';
 import { setItem, getItem, removeItem } from './storage';
 
 const CACHE_NAME = 'redcards-resources-v1';
@@ -18,6 +18,7 @@ export function getResourceUrls() {
   const urls = [];
 
   // Add all Red Card PDFs
+  const redCardsPrintLinks = getRedCardsPrintLinks();
   Object.values(redCardsPrintLinks).forEach(url => {
     urls.push(url);
   });

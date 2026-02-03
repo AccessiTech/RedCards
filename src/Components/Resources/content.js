@@ -1,4 +1,9 @@
 
+// NOTE: Resource data has been moved to src/config/resources.json
+// This file is kept for reference but is no longer imported by components.
+// Import from '../../config' to access resources data:
+//   import { getDigitalResources, getPrintableResources, getRedCardsPrintLinks } from '../../config';
+
 export const digitalResources = {
   "informedimmigrant.com": {
     title: "Learn about YOUR RIGHTS (Federal)",
