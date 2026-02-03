@@ -887,7 +887,7 @@ src/config/
   - [ ] Create `src/config/` directory structure
   - [ ] Create `src/config/index.js` central export
   - [ ] Create `src/config/regions.json` for Rapid Response Networks
-    - Schema: `{ id, name, displayName, phoneNumber, coverage, url? }`
+    - Schema: `{ id, region, name, displayName?, coverage, phoneNumber, url?, email? }`
     - Extract all 19 phone numbers from `Rights/content.jsx`
   - [ ] Create `src/config/validators.js` with simple validation functions
   - [ ] Update `Rights.jsx` to import from config

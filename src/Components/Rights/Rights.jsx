@@ -9,20 +9,18 @@ import { useParams } from "react-router";
 
 // Transform regions config to match expected ctaData structure
 const ctaSource = regions.source;
-const ctaUrl = regions.url;
-const ctaTitle = regions.title;
 const ctaData = {
   url: regions.url,
   title: regions.title,
   description: regions.description,
   links: regions.networks.map((network, index) => {
     const isFirstInRegion = index === 0 || regions.networks[index - 1].region !== network.region;
+    const displayNamePart = network.displayName ? ` (${network.displayName})` : '';
+    const emailPart = network.email ? ` (${network.email})` : '';
     return {
       // Only add title for first network in a region
       ...(isFirstInRegion && { title: network.region }),
-      description: network.displayName 
-        ? `${network.name} (${network.coverage})`
-        : network.name + (network.coverage ? ` (${network.coverage})` : ''),
+      description: network.name + displayNamePart + emailPart,
       descriptionLink: network.url,
       url: `tel:${network.phoneNumber}`,
       btnText: network.phoneNumber,

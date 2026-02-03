@@ -56,6 +56,9 @@ export function validateNetwork(network) {
   if (!network.region || typeof network.region !== 'string') {
     errors.push('Network must have a valid region (string)');
   }
+  if (!network.coverage || typeof network.coverage !== 'string') {
+    errors.push('Network must have a valid coverage (string)');
+  }
   if (!network.phoneNumber || !validatePhoneNumber(network.phoneNumber)) {
     errors.push(`Network ${network.id || 'unknown'} has invalid phone number format`);
   }
