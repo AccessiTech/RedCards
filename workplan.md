@@ -895,37 +895,37 @@ src/config/
   - [x] Update tests: `rights.test.jsx`, `header.test.jsx`
   - [x] Keep JSX content (leftHeader, rightHeader, etc.) in Rights/content.jsx
   
-- [ ] **PR 2: Migrate resources configuration**
-  - [ ] Create `src/config/resources.json` for resource links
+- [x] **PR 2: Migrate resources configuration**
+  - [x] Create `src/config/resources.json` for resource links
     - Schema: `{ id, category, title, description, url, type, links[] }`
     - Extract from `Resources/content.js`
-  - [ ] Update `Resources.jsx` to import from config
-  - [ ] Update `ResourceBtn.jsx` and `ResourceModal.jsx`
-  - [ ] Update `src/utils/cache.js` (imports redCardsPrintLinks)
-  - [ ] Update tests: `resources.test.jsx`, `resourceBtn.test.jsx`, `resourceModal.test.jsx`, `cache.test.js`
+  - [x] Update `Resources.jsx` to import from config
+  - [x] Update `ResourceBtn.jsx` and `ResourceModal.jsx`
+  - [x] Update `src/utils/cache.js` (imports redCardsPrintLinks)
+  - [x] Update tests: `resources.test.jsx`, `resourceBtn.test.jsx`, `resourceModal.test.jsx`, `cache.test.js`
   
-- [ ] **PR 3: Centralize constants (theme, URLs, metadata)**
-  - [ ] Create `src/config/constants.js` with:
+- [x] **PR 3: Centralize constants (theme, URLs, metadata)**
+  - [x] Create `src/config/constants.js` with:
     - Theme colors (consolidate from SCSS, manifest.json, vite.config.js)
     - External URLs (ILRC, Informed Immigrant, Google Translate, etc.)
     - App metadata (name, description, version)
     - PWA configuration constants
     - GA placeholder: `GA_MEASUREMENT_ID: null` (for future use)
-  - [ ] Update `vite.config.js` to import theme colors from constants
-  - [ ] Generate `public/manifest.json` dynamically during build (or use constants)
-  - [ ] Update `src/scss/variables.scss` to import from constants
-  - [ ] Update components with hardcoded colors: `Share.jsx`, `UpdatePrompt.scss`
-  - [ ] Update `Footer.jsx` to use constants for external URLs
-  - [ ] Fix typo: "htts://redcards.accessi.tech/" → "https://..."
+  - [x] Update `vite.config.js` to import theme colors from constants
+  - [x] Generate `public/manifest.json` dynamically during build (or use constants)
+  - [x] Update `src/scss/variables.scss` to import from constants
+  - [x] Update components with hardcoded colors: `Share.jsx`, `UpdatePrompt.scss`
+  - [x] Update `Footer.jsx` to use constants for external URLs
+  - [x] Fix typo: "htts://redcards.accessi.tech/" → "https://..."
   
-- [ ] **PR 4: Cleanup & documentation**
-  - [ ] Add config validation on app startup (call validators in index.jsx)
-  - [ ] Remove deprecated files: `Rights/content.jsx`, `Resources/content.js` (keep only JSX content if needed)
-  - [ ] Add JSDoc comments to config files
-  - [ ] Document config file formats in README
-  - [ ] Update CONTRIBUTING.md with config editing guidelines
-  - [ ] Verify all tests pass (234+ tests)
-  - [ ] Run full build and verify no regressions
+- [x] **PR 4: Cleanup & documentation**
+  - [x] Add config validation on app startup (call validators in index.jsx)
+  - [x] Remove deprecated files: `Rights/content.jsx`, `Resources/content.js` (keep only JSX content if needed)
+  - [x] Add JSDoc comments to config files
+  - [x] Document config file formats in README
+  - [x] Update CONTRIBUTING.md with config editing guidelines
+  - [x] Verify all tests pass (234+ tests)
+  - [x] Run full build and verify no regressions
 
 **Outcome:** All hardcoded data centralized in `src/config/`, single source of truth for theme colors, clean component imports, validated configuration
 
