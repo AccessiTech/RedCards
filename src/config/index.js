@@ -6,6 +6,7 @@
 import regionsConfig from './regions.json';
 import resourcesConfig from './resources.json';
 import { validateRegionsConfig, handleValidationErrors } from './validators';
+import * as constants from './constants';
 
 // Validate regions config on import (dev warnings, prod errors)
 const regionsValidation = validateRegionsConfig(regionsConfig);
@@ -118,3 +119,8 @@ export function getPrintableResources() {
     },
   };
 }
+
+// Export constants
+export { constants };
+export const { theme, urls, app, pwa, analytics } = constants;
+

@@ -1,3 +1,4 @@
+import { urls, app } from '../../config';
 
 function Footer() {
   return (
@@ -9,7 +10,7 @@ function Footer() {
       <p className="credit">
         Click here to report an{" "}
         <a
-          href="https://github.com/AccessiTech/RedCards/issues/new?template=Blank+issue"
+          href={urls.external.github.issues}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -17,7 +18,7 @@ function Footer() {
         </a>
         , join the{" "}
         <a
-          href="https://github.com/AccessiTech/RedCards/discussions/2"
+          href={urls.external.github.discussion}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -25,7 +26,7 @@ function Footer() {
         </a>
         , or view the site's{" "}
         <a
-          href="https://github.com/AccessiTech/RedCards"
+          href={urls.external.github.repo}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -34,7 +35,7 @@ function Footer() {
         .
       </p>
       <p className="credit">
-        &copy; {new Date().getFullYear()} AccessiTech LLC
+        &copy; {new Date().getFullYear()} {app.copyright}
       </p>
     </footer>
   );

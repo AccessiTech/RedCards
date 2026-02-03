@@ -3,6 +3,18 @@ import PropTypes from "prop-types";
 import { Row, Col } from "react-bootstrap";
 import { shareHandler } from "../../utils";
 
+// Status message colors
+const STATUS_COLORS = {
+  error: {
+    background: "#f8d7da",
+    text: "#842029",
+  },
+  success: {
+    background: "#d1e7dd",
+    text: "#000000",
+  },
+};
+
 function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
   const url = siteUrl || window.location.href;
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -89,8 +101,8 @@ function Share({ siteUrl, linkText, shareTitle, shareText } = {}) {
                   marginTop: "0.5rem",
                   padding: "0.5rem",
                   borderRadius: "0.25rem",
-                  backgroundColor: shareStatus.type === "error" ? "#f8d7da" : "#d1e7dd",
-                  color: shareStatus.type === "error" ? "#842029" : "#000000",
+                  backgroundColor: STATUS_COLORS[shareStatus.type]?.background,
+                  color: STATUS_COLORS[shareStatus.type]?.text,
                   fontSize: "0.875rem",
                 }}
               >
