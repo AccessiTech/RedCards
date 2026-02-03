@@ -850,24 +850,88 @@ git config --global user.signingkey <your-gpg-key-id>
 
 ### 3.4 Centralize Configuration Data
 **Files:** Create `src/config/`, refactor `content.jsx`, `content.js`
+**Status:** 📋 **Ready to Start - February 2, 2026**
+
+**Strategy & Approach:**
+
+**Architecture Decisions:**
+1. **Structure:** Functional separation (data by domain: regions, resources, constants)
+2. **JSX Content:** Keep JSX/presentation logic in components, only move data to config
+3. **File Format:** JSON for data (.json), JavaScript for constants requiring computation (.js)
+4. **Validation:** Simple manual validation functions (no new dependencies)
+5. **Migration:** Incremental PRs for safer, reviewable changes
+6. **Theme Colors:** Single source of truth in config, generate manifest dynamically
+7. **Backward Compatibility:** Clean break - no deprecated exports (forces complete migration)
+8. **Test Updates:** Update tests synchronously with component changes
+9. **Google Analytics:** Add placeholder GA_MEASUREMENT_ID for future implementation
+
+**Config File Structure:**
+```
+src/config/
+├── index.js          # Central export point for all config
+├── regions.json      # Rapid Response Network data (19 phone numbers)
+├── resources.json    # Digital & Printable Resources
+├── constants.js      # Theme colors, external URLs, app metadata
+└── validators.js     # Simple validation functions
+```
+
+**Scope Summary:**
+- **19 phone numbers** to extract from Rights/content.jsx
+- **16 language PDFs + 2 digital sites + 3 printable categories** from Resources/content.js
+- **5+ theme color constants** currently duplicated across 3 files
+- **10+ external URLs** hardcoded in various components
+- **~20 files affected** (5 new, 15 modified)
 
 **Tasks:**
-- [ ] Create `src/config/regions.json` for Rapid Response Network data
-  - Schema: `{ id, name, displayName, phoneNumber, coverage, url? }`
-  - Extract all 18+ phone numbers from `Rights/content.jsx`
-- [ ] Create `src/config/resources.json` for resource links
-  - Schema: `{ id, category, titleKey, descriptionKey, url, type }`
-  - Extract from `Resources/content.js`
-- [ ] Create `src/config/constants.js` for app constants
-  - Theme colors, GA ID, external URLs
-- [ ] Create `src/config/schema.js` for JSON validation (Zod or similar)
-- [ ] Update components to import from config files
-- [ ] Add config validation on app startup
-- [ ] Document config file formats in README
+- [x] **PR 1: Create config infrastructure + migrate regions**
+  - [x] Create `src/config/` directory structure
+  - [x] Create `src/config/index.js` central export
+  - [x] Create `src/config/regions.json` for Rapid Response Networks
+    - Schema: `{ id, name, displayName, phoneNumber, coverage, url? }`
+    - Extract all 19 phone numbers from `Rights/content.jsx`
+  - [x] Create `src/config/validators.js` with simple validation functions
+  - [x] Update `Rights.jsx` to import from config
+  - [x] Update `Header.jsx` (uses norCalResistNumber)
+  - [x] Update tests: `rights.test.jsx`, `header.test.jsx`
+  - [x] Keep JSX content (leftHeader, rightHeader, etc.) in Rights/content.jsx
+  
+- [ ] **PR 2: Migrate resources configuration**
+  - [ ] Create `src/config/resources.json` for resource links
+    - Schema: `{ id, category, title, description, url, type, links[] }`
+    - Extract from `Resources/content.js`
+  - [ ] Update `Resources.jsx` to import from config
+  - [ ] Update `ResourceBtn.jsx` and `ResourceModal.jsx`
+  - [ ] Update `src/utils/cache.js` (imports redCardsPrintLinks)
+  - [ ] Update tests: `resources.test.jsx`, `resourceBtn.test.jsx`, `resourceModal.test.jsx`, `cache.test.js`
+  
+- [ ] **PR 3: Centralize constants (theme, URLs, metadata)**
+  - [ ] Create `src/config/constants.js` with:
+    - Theme colors (consolidate from SCSS, manifest.json, vite.config.js)
+    - External URLs (ILRC, Informed Immigrant, Google Translate, etc.)
+    - App metadata (name, description, version)
+    - PWA configuration constants
+    - GA placeholder: `GA_MEASUREMENT_ID: null` (for future use)
+  - [ ] Update `vite.config.js` to import theme colors from constants
+  - [ ] Generate `public/manifest.json` dynamically during build (or use constants)
+  - [ ] Update `src/scss/variables.scss` to import from constants
+  - [ ] Update components with hardcoded colors: `Share.jsx`, `UpdatePrompt.scss`
+  - [ ] Update `Footer.jsx` to use constants for external URLs
+  - [ ] Fix typo: "htts://redcards.accessi.tech/" → "https://..."
+  
+- [ ] **PR 4: Cleanup & documentation**
+  - [ ] Add config validation on app startup (call validators in index.jsx)
+  - [ ] Remove deprecated files: `Rights/content.jsx`, `Resources/content.js` (keep only JSX content if needed)
+  - [ ] Add JSDoc comments to config files
+  - [ ] Document config file formats in README
+  - [ ] Update CONTRIBUTING.md with config editing guidelines
+  - [ ] Verify all tests pass (234+ tests)
+  - [ ] Run full build and verify no regressions
 
-**Outcome:** All hardcoded data centralized and validated
+**Outcome:** All hardcoded data centralized in `src/config/`, single source of truth for theme colors, clean component imports, validated configuration
 
 **Dependencies:** None (can parallelize with Phase 3.1-3.3)
+
+**Estimated Impact:** ~20 files, 4 PRs, 3-4 days
 
 ---
 
