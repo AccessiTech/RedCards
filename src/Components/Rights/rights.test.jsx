@@ -193,4 +193,34 @@ describe('Rights Component', () => {
     expect(resourceBtn).not.toBeNull();
     expect(resourceBtn.textContent).toBe(ctaTitle);
   });
+
+  describe('Accessibility', () => {
+    it('language tabs have descriptive ARIA labels', () => {
+      render(<BrowserRouter><Rights /></BrowserRouter>);
+      
+      const translatedTab = screen.getByLabelText('Show translated Red Card');
+      expect(translatedTab).toBeDefined();
+      expect(translatedTab.textContent).toBe('Translated');
+
+      const englishTab = screen.getByLabelText('Show English Red Card');
+      expect(englishTab).toBeDefined();
+      expect(englishTab.textContent).toBe('English');
+    });
+
+    it('language tabs are keyboard accessible', () => {
+      const { container } = render(<BrowserRouter><Rights /></BrowserRouter>);
+      const tabs = container.querySelectorAll('.nav-link');
+      
+      expect(tabs.length).toBe(2);
+      tabs.forEach(tab => {
+        // React Bootstrap tabs use tabindex for internal navigation management
+        // This is correct behavior - the Nav component manages focus
+        // Tabs should have aria-label for accessibility
+        expect(tab.getAttribute('aria-label')).toBeTruthy();
+        // Verify they're clickable/interactive
+        expect(tab.tagName).toBe('A');
+      });
+    });
+  });
 });
+

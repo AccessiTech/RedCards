@@ -138,20 +138,26 @@ function Header({ title, lead, disableTranslate } = {}) {
             variant="primary"
             size="lg"
             className="report-ice-activity-btn w-100 fw-bold text-secondary"
+            aria-label={`Report ICE Activity - Call ${norCalResistNumber}`}
           >
             REPORT ICE ACTIVITY<br />
-            { `📞 ${norCalResistNumber ? norCalResistNumber : ""} 📞` }
+            <span aria-hidden="true">📞</span> {norCalResistNumber ? norCalResistNumber : ""} <span aria-hidden="true">📞</span>
           </Button>
           <h1>{title || "Know Your Rights"}</h1>
           {lead && <p className="lead">{lead}</p>}
           {/* a button group with three buttons: Scan (which scrolls down to the QR Code), Save (which prompts the browser to save the page to the device homescreen), Share (which prompts the browser's default share functionality) */}
           <div className="mt-4 share-bar d-flex justify-content-center gap-4 mb-4">
-            <Button variant="outline-primary" size="lg" onClick={() => {
-              const qrCodeSection = document.getElementById("qr-link");
-              if (qrCodeSection) {
-                qrCodeSection.scrollIntoView({ behavior: "smooth" });
-              }
-            }}>
+            <Button 
+              variant="outline-primary" 
+              size="lg" 
+              onClick={() => {
+                const qrCodeSection = document.getElementById("qr-link");
+                if (qrCodeSection) {
+                  qrCodeSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              aria-label="Scan QR code below"
+            >
               Scan
             </Button>
             {!hideSaveButton && (
@@ -160,6 +166,11 @@ function Header({ title, lead, disableTranslate } = {}) {
                 size="lg"
                 onClick={handleSaveClick}
                 disabled={caching}
+                aria-label={
+                  window.matchMedia("(display-mode: standalone)").matches
+                    ? "Download resources for offline use"
+                    : "Save app for offline use"
+                }
               >
                 {caching ? (
                   <>
@@ -178,22 +189,27 @@ function Header({ title, lead, disableTranslate } = {}) {
                 )}
               </Button>
             )}
-            <Button variant="outline-primary" size="lg" onClick={async () => {
-              await shareHandler({
-                shareUrl: window.location.href,
-                shareTitle: document.title,
-                onSuccess: (message) => {
-                  // Show alert for clipboard copy (maintains original behavior)
-                  if (message.includes("clipboard")) {
-                    alert(message);
-                  }
-                },
-                onError: (message) => {
-                  // Show alert for errors (maintains original behavior)
-                  alert(message.includes("Permission denied") ? message : `Share failed: ${message}`);
-                },
-              });
-            }}>
+            <Button 
+              variant="outline-primary" 
+              size="lg" 
+              onClick={async () => {
+                await shareHandler({
+                  shareUrl: window.location.href,
+                  shareTitle: document.title,
+                  onSuccess: (message) => {
+                    // Show alert for clipboard copy (maintains original behavior)
+                    if (message.includes("clipboard")) {
+                      alert(message);
+                    }
+                  },
+                  onError: (message) => {
+                    // Show alert for errors (maintains original behavior)
+                    alert(message.includes("Permission denied") ? message : `Share failed: ${message}`);
+                  },
+                });
+              }}
+              aria-label="Share this page"
+            >
               Share
             </Button>
 

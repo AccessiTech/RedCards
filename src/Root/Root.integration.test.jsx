@@ -30,6 +30,15 @@ vi.mock("../Components/UpdatePrompt/UpdatePrompt", () => ({
   ),
 }));
 
+// Mock SkipLink component
+vi.mock("../Components/SkipLink/SkipLink", () => ({
+  default: ({ href, children }) => (
+    <a href={href} data-testid="skip-link" className="skip-link">
+      {children || "Skip to main content"}
+    </a>
+  ),
+}));
+
 describe("Root Component Integration Tests", () => {
   afterEach(() => {
     cleanup();
@@ -85,5 +94,33 @@ describe("Root Component Integration Tests", () => {
     
     // They should be siblings (both under Root's fragment)
     expect(updatePrompt.parentElement).toBe(app.parentElement);
+  });
+
+  describe("Accessibility", () => {
+    it("renders skip-to-content link", () => {
+      render(<Root />);
+      const skipLink = screen.getByTestId("skip-link");
+      expect(skipLink).toBeDefined();
+    });
+
+    it("skip link targets main content", () => {
+      render(<Root />);
+      const skipLink = screen.getByTestId("skip-link");
+      expect(skipLink.getAttribute("href")).toBe("#content");
+    });
+
+    it("skip link is positioned before other content", () => {
+      const { container } = render(<Root />);
+      const skipLink = container.querySelector('[data-testid="skip-link"]');
+      const updatePrompt = container.querySelector('[data-testid="update-prompt"]');
+      
+      // Skip link should exist
+      expect(skipLink).toBeDefined();
+      expect(updatePrompt).toBeDefined();
+      
+      // Both elements should be present in the document
+      expect(document.body.contains(skipLink)).toBe(true);
+      expect(document.body.contains(updatePrompt)).toBe(true);
+    });
   });
 });

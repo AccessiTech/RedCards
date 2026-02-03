@@ -481,4 +481,76 @@ describe("Header", () => {
       expect(alertMock).toHaveBeenCalledWith("Share failed: Unable to share. Please try again.");
     });
   });
+
+  describe("Accessibility", () => {
+    test("Scan button has descriptive ARIA label", () => {
+      render(<Header />);
+      const scanButton = screen.getByLabelText("Scan QR code below");
+      expect(scanButton).toBeDefined();
+      expect(scanButton.textContent).toBe("Scan");
+    });
+
+    test("Share button has descriptive ARIA label", () => {
+      render(<Header />);
+      const shareButton = screen.getByLabelText("Share this page");
+      expect(shareButton).toBeDefined();
+      expect(shareButton.textContent).toBe("Share");
+    });
+
+    test("Save button has descriptive ARIA label when not installed", () => {
+      matchMediaMock.mockReturnValue({
+        matches: false,
+        media: "(display-mode: standalone)",
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      render(<Header />);
+      const saveButton = screen.getByLabelText("Save app for offline use");
+      expect(saveButton).toBeDefined();
+    });
+
+    test("Save button has contextual ARIA label when installed", () => {
+      matchMediaMock.mockReturnValue({
+        matches: true,
+        media: "(display-mode: standalone)",
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      render(<Header />);
+      const saveButton = screen.getByLabelText("Download resources for offline use");
+      expect(saveButton).toBeDefined();
+    });
+
+    test("ICE activity button has ARIA label with phone number", () => {
+      render(<Header />);
+      const iceButton = screen.getByLabelText(`Report ICE Activity - Call ${norCalResistNumber}`);
+      expect(iceButton).toBeDefined();
+      expect(iceButton.textContent).toContain(norCalResistNumber);
+    });
+
+    test("decorative phone emojis are hidden from screen readers", () => {
+      const { container } = render(<Header />);
+      const iceButton = container.querySelector('.report-ice-activity-btn');
+      const ariaHiddenElements = iceButton.querySelectorAll('[aria-hidden="true"]');
+      
+      // Should have 2 emoji spans with aria-hidden
+      expect(ariaHiddenElements.length).toBeGreaterThanOrEqual(2);
+    });
+
+    test("all interactive buttons are keyboard accessible", () => {
+      const { container } = render(<Header />);
+      const buttons = container.querySelectorAll('button');
+      
+      buttons.forEach(button => {
+        // Buttons should be focusable (not have tabindex="-1")
+        expect(button.getAttribute('tabindex')).not.toBe('-1');
+        // Buttons should have either text content or aria-label
+        const hasText = button.textContent.trim().length > 0;
+        const hasAriaLabel = button.getAttribute('aria-label');
+        expect(hasText || hasAriaLabel).toBe(true);
+      });
+    });
+  });
 });
