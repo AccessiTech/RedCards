@@ -883,17 +883,17 @@ src/config/
 - **~20 files affected** (5 new, 15 modified)
 
 **Tasks:**
-- [ ] **PR 1: Create config infrastructure + migrate regions**
-  - [ ] Create `src/config/` directory structure
-  - [ ] Create `src/config/index.js` central export
-  - [ ] Create `src/config/regions.json` for Rapid Response Networks
+- [x] **PR 1: Create config infrastructure + migrate regions**
+  - [x] Create `src/config/` directory structure
+  - [x] Create `src/config/index.js` central export
+  - [x] Create `src/config/regions.json` for Rapid Response Networks
     - Schema: `{ id, name, displayName, phoneNumber, coverage, url? }`
     - Extract all 19 phone numbers from `Rights/content.jsx`
-  - [ ] Create `src/config/validators.js` with simple validation functions
-  - [ ] Update `Rights.jsx` to import from config
-  - [ ] Update `Header.jsx` (uses norCalResistNumber)
-  - [ ] Update tests: `rights.test.jsx`, `header.test.jsx`
-  - [ ] Keep JSX content (leftHeader, rightHeader, etc.) in Rights/content.jsx
+  - [x] Create `src/config/validators.js` with simple validation functions
+  - [x] Update `Rights.jsx` to import from config
+  - [x] Update `Header.jsx` (uses norCalResistNumber)
+  - [x] Update tests: `rights.test.jsx`, `header.test.jsx`
+  - [x] Keep JSX content (leftHeader, rightHeader, etc.) in Rights/content.jsx
   
 - [ ] **PR 2: Migrate resources configuration**
   - [ ] Create `src/config/resources.json` for resource links
