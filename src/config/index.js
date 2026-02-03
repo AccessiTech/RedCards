@@ -1,6 +1,11 @@
 /**
- * Central configuration export point
- * All configuration data is imported and re-exported from this file
+ * Configuration Module - Central Export Point
+ * 
+ * This module serves as the single source of truth for all application configuration.
+ * It imports and re-exports configuration data from JSON files and constants,
+ * providing helper functions for backward compatibility with legacy component formats.
+ * 
+ * @module config
  */
 
 import regionsConfig from './regions.json';
