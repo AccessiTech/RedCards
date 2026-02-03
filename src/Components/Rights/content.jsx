@@ -6,7 +6,7 @@
  * 
  * NOTE: Rapid Response Network data has been migrated to src/config/regions.json.
  * 
- * @deprecated The network data from this file has been moved. Import from config instead:
+ * @note The network data from this file has been moved. Import from config instead:
  * @example
  * import { regions, getSacramentoPhoneNumber } from '../../config';
  * 
