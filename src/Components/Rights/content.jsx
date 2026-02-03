@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Rights Section Content (JSX Components)
+ * 
+ * This file contains the static JSX content for the Rights section.
+ * These are React components and remain in this file as JSX cannot be stored in JSON.
+ * 
+ * NOTE: Rapid Response Network data has been migrated to src/config/regions.json.
+ * 
+ * @note The network data from this file has been moved. Import from config instead:
+ * @example
+ * import { regions, getSacramentoPhoneNumber } from '../../config';
+ * 
+ * @see {@link ../../config/regions.json} for network data
+ * @see {@link ../../config/index.js} for helper functions
+ */
 
 // content for the right side of the Rights section
 export const rightHeader = "To the agent";
@@ -64,6 +79,23 @@ export const attribution = (
   </p>
 );
 
-// NOTE: Rapid Response Network data has been moved to src/config/regions.json
-// Import from '../../config' to access regions data:
-//   import { regions, getSacramentoPhoneNumber } from '../../config';
+/**
+ * NOTE: Rapid Response Network Configuration
+ * ==========================================
+ * 
+ * Network data (phone numbers, regions, coverage areas) has been moved to:
+ * - Data: src/config/regions.json
+ * - Helpers: src/config/index.js
+ * 
+ * This file now only contains JSX content that cannot be stored in JSON.
+ * 
+ * Migration completed in Phase 3.4 PR1.
+ * 
+ * @example Import networks data
+ * import { regions, getSacramentoPhoneNumber } from '../../config';
+ * 
+ * @example Access specific network
+ * import { getNetworkById } from '../../config';
+ * const sacramento = getNetworkById('sacramento');
+ * console.log(sacramento.phoneNumber);
+ */
