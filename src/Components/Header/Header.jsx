@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Col, Row, Button, Spinner } from "react-bootstrap";
 import Translate from "../Translate/Translate";
 import PropTypes from "prop-types";
-import { norCalResistNumber } from "../Rights/content";
+import { getSacramentoPhoneNumber } from "../../config";
 import { shareHandler } from "../../utils";
 import { isOnline, onNetworkChange } from "../../utils/network";
 import { cacheResources, isCached } from "../../utils/cache";
@@ -13,6 +13,7 @@ function Header({ title, lead, disableTranslate } = {}) {
   const [online, setOnline] = useState(isOnline());
   const [caching, setCaching] = useState(false);
   const [cacheComplete, setCacheComplete] = useState(isCached());
+  const norCalResistNumber = getSacramentoPhoneNumber();
 
   useEffect(() => {
     function handleBeforeInstallPrompt(event) {

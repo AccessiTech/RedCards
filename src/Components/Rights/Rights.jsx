@@ -1,10 +1,32 @@
 import { Col, Nav, Row, Tab, Button } from "react-bootstrap";
-import { attribution, leftHeader, rightHeader, leftColContent, rightColContent, ctaSource, ctaData, ctaUrl, ctaTitle, norCalResistNumber } from "./content";
+import { attribution, leftHeader, rightHeader, leftColContent, rightColContent } from "./content";
+import { regions } from "../../config";
 import PropTypes from "prop-types";
 import ResourceBtn from "../Resources/ResourceBtn";
 import { useEffect, useState } from "react";
 import ResourceModal from "../Resources/ResourceModal";
 import { useParams } from "react-router";
+
+// Transform regions config to match expected ctaData structure
+const ctaSource = regions.source;
+const ctaData = {
+  url: regions.url,
+  title: regions.title,
+  description: regions.description,
+  links: regions.networks.map((network, index) => {
+    const isFirstInRegion = index === 0 || regions.networks[index - 1].region !== network.region;
+    const displayNamePart = network.displayName ? ` (${network.displayName})` : '';
+    const emailPart = network.email ? ` (${network.email})` : '';
+    return {
+      // Only add title for first network in a region
+      ...(isFirstInRegion && { title: network.region }),
+      description: network.name + displayNamePart + emailPart,
+      descriptionLink: network.url,
+      url: `tel:${network.phoneNumber}`,
+      btnText: network.phoneNumber,
+    };
+  })
+};
 
 function Rights(props) {
   const { id } = useParams();

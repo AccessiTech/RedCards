@@ -1,0 +1,162 @@
+{
+  "url": "https://www.informedimmigrant.com/resources/detention-deportation/know-your-rights/",
+  "title": "CA Rapid Response Networks",
+  "source": "rapid-response-networks",
+  "description": "See something, say something.",
+  "networks": [
+    {
+      "id": "centro-del-pueblo",
+      "region": "North California",
+      "name": "Centro del Pueblo Rapid Response Network",
+      "coverage": "Humboldt County",
+      "phoneNumber": "707-200-8091",
+      "url": "https://www.instagram.com/centrodelpueblo"
+    },
+    {
+      "id": "sacramento",
+      "region": "North California",
+      "name": "Sacramento Rapid Response Network",
+      "coverage": "Sacramento",
+      "phoneNumber": "916-382-0256",
+      "url": "https://www.sacfuelnetwork.org/sacramento-rapid-response-network"
+    },
+    {
+      "id": "acilep",
+      "region": "Bay Area",
+      "name": "Alameda County Immigration Legal and Education Partnership",
+      "displayName": "ACILEP",
+      "coverage": "Alameda County",
+      "phoneNumber": "510-241-4011",
+      "url": "http://centrolegal.org/acilep/"
+    },
+    {
+      "id": "marin",
+      "region": "Bay Area",
+      "name": "Marin Rapid Response Network",
+      "coverage": "Marin County",
+      "phoneNumber": "415-991-4545",
+      "url": "https://www.marinrrn.org/"
+    },
+    {
+      "id": "north-bay",
+      "region": "Bay Area",
+      "name": "North Bay Rapid Response Network",
+      "coverage": "Sonoma, Napa & Solano Counties",
+      "phoneNumber": "707-800-4544",
+      "url": "https://www.northbayop.org/nbrrn"
+    },
+    {
+      "id": "san-francisco",
+      "region": "Bay Area",
+      "name": "San Francisco Rapid Response Network",
+      "coverage": "San Francisco",
+      "phoneNumber": "415-200-1548",
+      "url": "http://sfilen.org/"
+    },
+    {
+      "id": "san-mateo",
+      "region": "Bay Area",
+      "name": "San Mateo County Rapid Response Network",
+      "coverage": "San Mateo County",
+      "phoneNumber": "203-666-4472",
+      "url": "https://faithinactionba.org/"
+    },
+    {
+      "id": "santa-clara",
+      "region": "Bay Area",
+      "name": "Santa Clara County Rapid Response Network",
+      "coverage": "Santa Clara County",
+      "phoneNumber": "408-290-1144",
+      "url": "https://pactsj.org/rapid-response-network-in-santa-clara-county"
+    },
+    {
+      "id": "contra-costa",
+      "region": "Bay Area",
+      "name": "Stand Together Contra Costa",
+      "coverage": "Contra Costa County",
+      "phoneNumber": "925-900-5151",
+      "url": "https://standtogethercontracosta.org/"
+    },
+    {
+      "id": "kern",
+      "region": "Central Coast & Central Valley",
+      "name": "Kern County Rapid Response Network",
+      "coverage": "Kern County",
+      "phoneNumber": "661-432-2230",
+      "url": "https://www.rapidresponsekern.com/"
+    },
+    {
+      "id": "santa-cruz",
+      "region": "Central Coast & Central Valley",
+      "name": "Santa Cruz County Your Allied Rapid Response Network & Pajaro Valley Rapid Response",
+      "displayName": "YARR Santa Cruz",
+      "coverage": "Santa Cruz County",
+      "phoneNumber": "831-239-4289",
+      "url": "https://www.facebook.com/YARRsantacruz/"
+    },
+    {
+      "id": "southern-central-coast",
+      "region": "Central Coast & Central Valley",
+      "name": "Southern Central Coast Rapid Response Network",
+      "coverage": "Santa Barbara, Ventura & San Luis Obispo Counties",
+      "phoneNumber": "805-870-8855",
+      "url": "http://www.805immigrant.org/"
+    },
+    {
+      "id": "valley-watch",
+      "region": "Central Coast & Central Valley",
+      "name": "Valley Watch Rapid Response Network",
+      "coverage": "Central Valley",
+      "phoneNumber": "559-206-0151"
+    },
+    {
+      "id": "long-beach",
+      "region": "Southern California",
+      "name": "Long Beach Community Defense Network",
+      "coverage": "Long Beach",
+      "phoneNumber": "562-276-0267",
+      "url": "https://www.sanctuarylb.com/lbcdn"
+    },
+    {
+      "id": "los-angeles",
+      "region": "Southern California",
+      "name": "Los Angeles Raids and Rapid Response Network",
+      "coverage": "Los Angeles",
+      "phoneNumber": "888-624-4752"
+    },
+    {
+      "id": "orange-county",
+      "region": "Southern California",
+      "name": "Orange County Rapid Response Network",
+      "coverage": "Orange County",
+      "phoneNumber": "714-881-1558",
+      "url": "https://ocrapidresponse.org/",
+      "email": "casereferral@ocrapidresponse.org"
+    },
+    {
+      "id": "inland-coalition",
+      "region": "Southern California",
+      "name": "Inland Coalition For Immigrant Justice's Resource",
+      "displayName": "IC4IJ",
+      "coverage": "San Bernardino & Riverside Counties",
+      "phoneNumber": "909-361-4588",
+      "url": "http://ic4ij.org/"
+    },
+    {
+      "id": "socal-bilingual",
+      "region": "Southern California",
+      "name": "Southern California Bilingual Rapid Response Legal Resource Hotline",
+      "coverage": "Southern California",
+      "phoneNumber": "213-833-8283",
+      "url": "https://www.immdef.org/blog/immdefrrhotline"
+    },
+    {
+      "id": "san-diego",
+      "region": "Southern California",
+      "name": "San Diego Rapid Response Network",
+      "coverage": "San Diego",
+      "phoneNumber": "619-536-0823",
+      "url": "http://www.rapidresponsesd.org/"
+    }
+  ]
+}

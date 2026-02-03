@@ -1,3 +1,27 @@
+/**
+ * @fileoverview Resources Content (DEPRECATED)
+ * 
+ * ⚠️ DEPRECATED: This file is kept for reference only.
+ * All resource data has been migrated to src/config/resources.json.
+ * 
+ * DO NOT import from this file. Use the config module instead:
+ * 
+ * @example Import resources
+ * import { resources, getDigitalResources, getPrintableResources } from '../../config';
+ * 
+ * @example Access specific resources
+ * import { getRedCardsPrintLinks } from '../../config';
+ * const pdfLinks = getRedCardsPrintLinks();
+ * 
+ * @deprecated since Phase 3.4 PR2
+ * @see {@link ../../config/resources.json} for resource data
+ * @see {@link ../../config/index.js} for helper functions
+ */
+
+// NOTE: Resource data has been moved to src/config/resources.json
+// This file is kept for reference but is no longer imported by components.
+// Import from '../../config' to access resources data:
+//   import { getDigitalResources, getPrintableResources, getRedCardsPrintLinks } from '../../config';
 
 export const digitalResources = {
   "informedimmigrant.com": {

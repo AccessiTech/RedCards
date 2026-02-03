@@ -155,13 +155,18 @@ describe('PWA Configuration', () => {
     it('should have complete PWA manifest configuration', () => {
       const viteConfig = readFileSync(join(process.cwd(), 'vite.config.js'), 'utf-8');
       
-      // Check for essential manifest fields
-      expect(viteConfig).toContain('name: "Red Cards"');
-      expect(viteConfig).toContain('short_name: "redcards"');
-      expect(viteConfig).toContain('theme_color: "#B11111"');
-      expect(viteConfig).toContain('background_color: "#FFFFFF"');
-      expect(viteConfig).toContain('display: "fullscreen"');
-      expect(viteConfig).toContain('start_url: "/"');
+      // Check for constants import
+      expect(viteConfig).toContain("import { theme, app, pwa } from './src/config/constants.js'");
+      
+      // Check for manifest fields using constants
+      expect(viteConfig).toContain('name: app.name');
+      expect(viteConfig).toContain('short_name: app.shortName');
+      expect(viteConfig).toContain('description: app.description');
+      expect(viteConfig).toContain('theme_color: theme.colors.secondary');
+      expect(viteConfig).toContain('background_color: theme.colors.primary');
+      expect(viteConfig).toContain('display: pwa.display');
+      expect(viteConfig).toContain('start_url: pwa.startUrl');
+      expect(viteConfig).toContain('lang: app.lang');
     });
 
     it('should include properly configured icons', () => {
